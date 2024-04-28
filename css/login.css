@@ -1,0 +1,87 @@
+body{
+  background-color: #F7F6CF;
+  font-family: Roboto;
+}
+
+#login, #signup{
+    width: 500px;
+    margin: auto;
+    margin-top : 100px;
+    padding-bottom : 150px;
+}
+h1{
+    text-align: center;
+    color: black;
+    padding-top : 20px;
+    font-size : 40px;
+}
+
+footer{
+    width: 98%;
+    position: absolute;
+    bottom: 0px;
+}
+
+#username, #password{
+    padding: 20px;
+}
+
+input[type="text"] {
+  font-size: 27px;
+}
+input[type="password"] {
+  font-size: 27px;
+}
+fieldset {
+  border-radius: 10px; /* Valeur du rayon de bordure */
+}
+legend{
+  color: color;
+  font-size : 20px;
+}
+
+#user_ipt, #pwrd_ipt{
+    width: 100%;
+}
+#error{
+    padding: 10px;
+    margin: auto;
+    border: 1px solid black;
+    text-align: center;
+    width: 400px;
+}
+#err_cont{
+    padding: 30px;
+}
+
+#content{
+  background-color :#F4CFDF;
+  width: 600px;
+  margin: auto;
+  height : 600px;
+  border-radius : 25px;
+  margin-top : 100px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+#submit{
+  margin-top: 100px;
+  margin-left: 23.5%;
+  padding: 10px 100px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #333;
+  color: #333;
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit:hover{
+  background-color: #333;
+  color: #fff;
+}
+
