@@ -1,4 +1,4 @@
-CREATE DATABASE `facquky` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE `facqukyl` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE facqukyl;
 
