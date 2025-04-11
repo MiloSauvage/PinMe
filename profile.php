@@ -26,142 +26,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@<?= htmlspecialchars($user["username"]) ?> | Pin-Me</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #fafafa;
-        }
-
-        .profile-header {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            padding: 30px 20px;
-            background-color: white;
-            border-bottom: 1px solid #ddd;
-            position: relative;
-        }
-
-        .profile-pic {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #4A90E2;
-            margin-right: 30px;
-        }
-
-        .profile-info {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .username {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .name {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        .bio {
-            font-size: 16px;
-            color: #777;
-            margin-top: 10px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            background-color: #4A90E2;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #357ABD;
-        }
-
-        .btn-primary {
-            background-color: #e91e63;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .btn-primary:hover {
-            background-color: #c2185b;
-        }
-
-        .nav-links {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .posts-section {
-            padding: 30px 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .post {
-            background-color: #eee;
-            aspect-ratio: 1 / 1;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .post img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        @media (max-width: 600px) {
-            .profile-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            .nav-links {
-                position: static;
-                margin-top: 15px;
-                width: 100%;
-                justify-content: flex-start;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./styles/profile.css">
+    <script src="./scripts/modal.js" defer></script>
 </head>
 <body>
 
@@ -206,10 +72,26 @@
             }
             foreach ($images as $image) {
                 $img = new Image($image["id"], $image["src"], $image["title"], $image["description"], $image["categories"], $image["tags"], $image["author_id"], $image["visibility"], $image["upload_date"]);
-                echo '<div class="post"><img src="' . htmlspecialchars($img->source) . '" alt="id:' . htmlspecialchars($img->id) . "\"></div> \n\t\t";
+                echo $img->toHTML() . "\n\t\t";
             }
             disconnect_database($connexion);
         ?>
+    </div>
+
+    <div class="modal" id="modal" role="post">
+        <div class="modal-content">
+            <div class="modal-close" data-dismiss="post">&times;</div>
+            <div class="modal-header">
+                <p>Titre de la modal</p>
+            </div>
+            <div class="modal-body">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, molestiae? Eos sint inventore ducimus, nobis dignissimos pariatur? Ab temporibus vitae porro harum? Non natus adipisci a, hic maxime quo unde.
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-close" role="button" data-dismiss="post">fermer</a>
+                <a href="#" class="btn btn">valider</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

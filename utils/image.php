@@ -26,6 +26,10 @@
             return "Image: $this->titre, Source: $this->source,  Description: $this->desc, Categories: $this->categories, Tags: $this->tags, Author ID: $this->id_author, Visibility: $this->visibility, Upload Date: $this->upload_date";
         }
 
+        function toHTML(){
+            return '<div class="post"><a href="#" role="button" data-target="#modal" data-toggle="modal"><img src="' . htmlspecialchars($this->source) . '" alt="id:' . htmlspecialchars($this->id) . '"></a></div>';
+        }
+
         function put_in_bdd($bdd) {
             $req = $bdd->prepare('INSERT INTO images (src, title, description, categories, tags, author_id, visibility, upload_date) VALUES (:src, :title, :description, :categories, :tags, :author_id, :visibility, :upload_date)');
             $req->execute(array(
