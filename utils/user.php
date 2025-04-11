@@ -9,6 +9,9 @@
         public $prenom;
         public $password;
         
+        public $src_pfp;
+        public $bio;
+        
         function __construct($id, $username, $email, $administrator, $date_joined, $nom = null, $prenom = null) {
             $this->id = $id;
             $this->username = $username;

@@ -6,4 +6,5 @@
     $db_password = "";
     // Gestion d'images
     $upload_dir = __DIR__ . "/../images/uploads/";
+    $extension_upload = "jpeg";
 ?>
