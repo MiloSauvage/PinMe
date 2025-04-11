@@ -187,12 +187,29 @@
     </div>
 
     <div class="posts-section">
-        <div class="post"><img src="https://picsum.photos/400?random=1" alt="Post 1"></div>
-        <div class="post"><img src="https://picsum.photos/400?random=2" alt="Post 2"></div>
-        <div class="post"><img src="https://picsum.photos/400?random=3" alt="Post 3"></div>
-        <div class="post"><img src="https://picsum.photos/400?random=4" alt="Post 4"></div>
-        <div class="post"><img src="https://picsum.photos/400?random=5" alt="Post 5"></div>
-    </div>
+        <?php
+            require_once("./utils/image.php");
+            require_once("./utils/bdd.php");
 
+            $query = "SELECT * FROM images WHERE author_id = :author_id";
+            $connexion = connection_database();
+
+            $stmt = $connexion->prepare($query);
+            $stmt->execute([
+                "author_id" => $user["id"]
+            ]);
+            $images = $stmt->fetchAll();
+            if(count($images) === 0){
+                echo '<p style="font-size: 200%;width:100vw;text-align:center;color:#585858;">Ça semble vide ici !</p>';
+                disconnect_database($connexion);
+                exit;
+            }
+            foreach ($images as $image) {
+                $img = new Image($image["id"], $image["src"], $image["title"], $image["description"], $image["categories"], $image["tags"], $image["author_id"], $image["visibility"], $image["upload_date"]);
+                echo '<div class="post"><img src="' . htmlspecialchars($img->source) . '" alt="id:' . htmlspecialchars($img->id) . "\"></div> \n\t\t";
+            }
+            disconnect_database($connexion);
+        ?>
+    </div>
 </body>
 </html>

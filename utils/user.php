@@ -8,7 +8,6 @@
         public $nom;
         public $prenom;
         public $password;
-        
         public $src_pfp;
         public $bio;
         
