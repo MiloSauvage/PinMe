@@ -32,10 +32,25 @@
 <body>
 
     <div class="profile-header">
-        <img src="./images/default-avatar.avif" alt="Photo de profil" class="profile-pic">
+        <img src=<?php if(isset($user["src_pfp"])) {
+                echo "./images/pfp/" . htmlspecialchars($user["src_pfp"]);
+            } else {
+                echo "./images/default-avatar.avif";
+            }
+            ?> alt="Photo de profil" class="profile-pic">
         <div class="profile-info">
             <div class="username">@<?= htmlspecialchars($user["username"]) ?></div>
-            <div class="name">Nom : <?= htmlspecialchars($user["last_name"] ?? "Dupont") ?> | Prénom : <?= htmlspecialchars($user["first_name"] ?? "Jean") ?></div>
+            <div class="name"><?php 
+                if (isset($user["last_name"])) {
+                    echo "Nom : " . htmlspecialchars($user["last_name"]);
+                }
+                if(isset($user["last_name"]) && isset($user["first_name"])){
+                    echo " | ";
+                }
+                if (isset($user["first_name"])) {
+                    echo "Prénom : " . htmlspecialchars($user["first_name"]);
+                }
+            ?></div>
             <div class="bio"><?= !empty($user["bio"]) ? nl2br(htmlspecialchars($user["bio"])) : "Aucune bio pour le moment." ?></div>
 
             <?php if ($editable): ?>
