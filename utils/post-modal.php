@@ -30,6 +30,7 @@
     <div class="modal-footer">
         <a href="#" class="btn btn-close" role="button" data-dismiss="post">fermer</a>
         <a href="#" class="btn btn">valider</a>
+        <a href="#" class="btn btn-delete" data-delete="post">supprimer</a>
     </div>
 </body>
 </html>

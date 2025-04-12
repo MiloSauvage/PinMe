@@ -28,6 +28,14 @@ window.onload = () => {
                 });
             });
 
+            const modalDelete = modal.querySelectorAll("[data-delete=post]");
+            modalDelete.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const response = await fetch(`process/remove-post.php?id=${id}`);
+                    location.reload();
+                });
+            });
+
             modal.addEventListener('click', () => {
                 modal.classList.remove('show');
             });

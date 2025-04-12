@@ -10,7 +10,7 @@
         public $visibility;
         public $upload_date;
         
-        function __construct($id, $source, $titre, $desc = "", $categories = "", $tags = "", $id_author, $visibility = true, $upload_date) {
+        function __construct($id, $source,  $titre, $desc = "", $categories = "", $tags = "", $id_author, $visibility = true, $upload_date) {
             $this->id = $id;
             $this->source = $source;
             $this->titre = $titre;
@@ -44,10 +44,13 @@
             ));
         }
 
-        function delete_from_bdd($bdd, $id) {
+        function delete_from_bdd($bdd) {
             $req = $bdd->prepare('DELETE FROM images WHERE id = :id');
-            $req->execute(array('id' => $id));
-            unlink($source);
+            $req->execute(array('id' => $this->id));
+            // suppression de l'image sur le serveur
+            if (file_exists($this->source)) {
+                unlink($this->source);
+            }
         }
     }
 
