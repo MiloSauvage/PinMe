@@ -27,7 +27,7 @@
         }
 
         function toHTML(){
-            return '<div class="post"><a href="#" role="button" data-target="#modal" data-toggle="modal"><img src="' . htmlspecialchars($this->source) . '" alt="id:' . htmlspecialchars($this->id) . '"></a></div>';
+            return '<div class="post"><a href="#" role="button" post-id="' . $this->id .'" data-target="#modal" data-toggle="modal"><img src="' . htmlspecialchars($this->source) . '" alt="id:' . htmlspecialchars($this->id) . '"></a></div>';
         }
 
         function put_in_bdd($bdd) {
@@ -44,22 +44,22 @@
             ));
         }
 
-        function get_from_bdd($bdd, $id) {
-            $req = $bdd->prepare('SELECT * FROM images WHERE id = :id');
-            $req->execute(array('id' => $id));
-            $data = $req->fetch(PDO::FETCH_ASSOC);
-            
-            if ($data) {
-                return new Image($data['id'], $data['src'], $data['title'], $data['description'], $data['categories'], $data['tags'], $data['author_id'], $data['visibility'], $data['upload_date']);
-            } else {
-                return null;
-            }
-        }
-
-        function delete_from_bdd($bdd, $id) {;
+        function delete_from_bdd($bdd, $id) {
             $req = $bdd->prepare('DELETE FROM images WHERE id = :id');
             $req->execute(array('id' => $id));
             unlink($source);
+        }
+    }
+
+    function get_image_from_id($bdd, $id) {
+        $req = $bdd->prepare('SELECT * FROM images WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $data = $req->fetch();
+        
+        if ($data) {
+            return new Image($data['id'], $data['src'], $data['title'], $data['description'], $data['categories'], $data['tags'], $data['author_id'], $data['visibility'], $data['upload_date']);
+        } else {
+            return null;
         }
     }
 ?>

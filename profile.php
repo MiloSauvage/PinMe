@@ -28,6 +28,7 @@
     <title>@<?= htmlspecialchars($user["username"]) ?> | Pin-Me</title>
     <link rel="stylesheet" href="./styles/profile.css">
     <script src="./scripts/modal.js" defer></script>
+    <script src="jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
@@ -95,17 +96,6 @@
 
     <div class="modal" id="modal" role="post">
         <div class="modal-content">
-            <div class="modal-close" data-dismiss="post">&times;</div>
-            <div class="modal-header">
-                <p>Titre de la modal</p>
-            </div>
-            <div class="modal-body">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, molestiae? Eos sint inventore ducimus, nobis dignissimos pariatur? Ab temporibus vitae porro harum? Non natus adipisci a, hic maxime quo unde.
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-close" role="button" data-dismiss="post">fermer</a>
-                <a href="#" class="btn btn">valider</a>
-            </div>
         </div>
     </div>
 </body>
