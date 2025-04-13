@@ -44,12 +44,13 @@
             ));
         }
 
-        function delete_from_bdd($bdd) {
+        function delete_from_bdd($bdd, $upload_dir) {
             $req = $bdd->prepare('DELETE FROM images WHERE id = :id');
             $req->execute(array('id' => $this->id));
-            // suppression de l'image sur le serveur
-            if (file_exists($this->source)) {
-                unlink($this->source);
+            $filename = basename($this->source);
+            $file_dir = ".." . $upload_dir . $filename;
+            if (file_exists($file_dir)) {
+                unlink($file_dir);
             }
         }
     }

@@ -24,7 +24,7 @@
         $domain = $_SERVER['HTTP_HOST'];
 
         // le "pinme" à supprimer
-        $adresse = $protocol . $domain . "/pinme/" . $upload_dir . $f_name;
+        $adresse = $protocol . $domain . "/pinme" . $upload_dir . $f_name;
 
         $image = new Image(0, $adresse, $_POST['title'], $_POST['description'], isset($_POST['categories'])? $_POST['categories'] : null, $_POST['tags'], $_SESSION['user']->id, true, date("Y-m-d H:i:s"));
 
