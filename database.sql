@@ -24,6 +24,7 @@ CREATE TABLE Images (
     categories VARCHAR(255),
     tags VARCHAR(255),
     author_id INT NOT NULL,
+    likes INT NOT NULL,
     visibility ENUM('Visible', 'Private') NOT NULL,
     upload_date DATETIME NOT NULL,
     FOREIGN KEY (author_id) REFERENCES Users(id)
@@ -58,3 +59,16 @@ CREATE TABLE Annotations (
     FOREIGN KEY (user_id) REFERENCES Users(id)
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- Likes table (relation entre Users et Images)
+CREATE TABLE Likes (
+    user_id INT NOT NULL,
+    image_id INT NOT NULL,
+    liked_at DATETIME NOT NULL,
+    PRIMARY KEY (user_id, image_id),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (image_id) REFERENCES Images(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+

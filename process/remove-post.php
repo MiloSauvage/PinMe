@@ -8,8 +8,6 @@
     require_once("../utils/user.php");
     require_once("../utils/variables.php");
     $id = $_GET["id"];
-    $connexion = connection_database();
-    $img = get_image_from_id($connexion, $id);
-    $img->delete_from_bdd($connexion, $upload_dir);
-    disconnect_database($connexion);
+    $img = get_image_from_id($id);
+    $img->delete_from_bdd();
 ?>

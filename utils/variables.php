@@ -1,10 +1,13 @@
 <?php
     // base de donnée
-    $db_host = "localhost";
-    $db_name = "pinme";
-    $db_user = "root";
-    $db_password = "";
+    define("DB_HOST", "localhost");
+    define("DB_NAME", "pinme");
+    define("DB_USER", "root");
+    define("DB_PASSWORD", "");
     // Gestion d'images
-    $upload_dir = "/images/uploads/";
-    $extension_upload = "jpeg";
+    define("UPLOAD_DIR", $_SERVER['DOCUMENT_ROOT'] . "/images/uploads/");
+    define("EXTENSION_UPLOAD", "jpeg");
+    // Gestion des fichiers de logs
+    define("LOG_FILE_PATH", $_SERVER['DOCUMENT_ROOT'] . "/logs/logs.txt");
+    define("LOG_ERROR_PATH" , $_SERVER['DOCUMENT_ROOT'] . "/logs/error.txt");
 ?>

@@ -2,18 +2,13 @@
     require_once("./utils/bdd.php");
     require_once("./utils/user.php");
     require_once("./utils/session.php");
+    require_once("./utils/image.php");
 
-    $profile = $_GET["username"] ?? '';
+    $profile = $_GET["username"];
 
-    $query = "SELECT * FROM users WHERE username = :username";
-    $connexion = connection_database();
-    $stmt = $connexion->prepare($query);
-    $stmt->execute([
-        "username" => $profile
-    ]);
-    $user = $stmt->fetch();
+    $user = get_user($profile);
 
-    if(!$user){
+    if($user === null){
         include_once("./utils/no-profile.php");
         exit;
     }
@@ -25,7 +20,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@<?= htmlspecialchars($user["username"]) ?> | Pin-Me</title>
+    <title>@<?= htmlspecialchars($user->username) ?> | Pin-Me</title>
     <link rel="stylesheet" href="./styles/profile.css">
     <script src="./scripts/modal.js" defer></script>
     <script src="jquery-3.7.1.min.js"></script>
@@ -33,26 +28,26 @@
 <body>
 
     <div class="profile-header">
-        <img src=<?php if(isset($user["src_pfp"])) {
-                echo "./images/pfp/" . htmlspecialchars($user["src_pfp"]);
+        <img src=<?php if(isset($user->src_pfp)) {
+                echo "./images/pfp/" . htmlspecialchars($user->src_pfp);
             } else {
                 echo "./images/default-avatar.avif";
             }
             ?> alt="Photo de profil" class="profile-pic">
         <div class="profile-info">
-            <div class="username">@<?= htmlspecialchars($user["username"]) ?></div>
+            <div class="username">@<?= htmlspecialchars($user->username) ?></div>
             <div class="name"><?php 
-                if (isset($user["last_name"])) {
-                    echo "Nom : " . htmlspecialchars($user["last_name"]);
+                if (isset($user->last_name)) {
+                    echo "Nom : " . htmlspecialchars($user->last_name);
                 }
-                if(isset($user["last_name"]) && isset($user["first_name"])){
+                if(isset($user->last_name) && isset($user->first_name)){
                     echo " | ";
                 }
-                if (isset($user["first_name"])) {
-                    echo "Prénom : " . htmlspecialchars($user["first_name"]);
+                if (isset($user->first_name)) {
+                    echo "Prénom : " . htmlspecialchars($user->first_name);
                 }
             ?></div>
-            <div class="bio"><?= !empty($user["bio"]) ? nl2br(htmlspecialchars($user["bio"])) : "Aucune bio pour le moment." ?></div>
+            <div class="bio"><?= !empty($user->bio) ? nl2br(htmlspecialchars($user->bio)) : "Aucune bio pour le moment." ?></div>
 
             <?php if ($editable): ?>
             <div class="actions">
@@ -70,25 +65,15 @@
 
     <div class="posts-section">
         <?php
-            require_once("./utils/image.php");
-            require_once("./utils/bdd.php");
+            $images = get_all_images_from_user_id($user->id);
 
-            $query = "SELECT * FROM images WHERE author_id = :author_id";
-            $connexion = connection_database();
-
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "author_id" => $user["id"]
-            ]);
-            $images = $stmt->fetchAll();
-            if(count($images) === 0){
+            if($images === null || count($images) === 0){
                 echo '<p style="font-size: 200%;width:100vw;text-align:center;color:#585858;">Ça semble vide ici !</p>';
                 disconnect_database($connexion);
                 exit;
             }
             foreach ($images as $image) {
-                $img = new Image($image["id"], $image["src"], $image["title"], $image["description"], $image["categories"], $image["tags"], $image["author_id"], $image["visibility"], $image["upload_date"]);
-                echo $img->toHTML() . "\n\t\t";
+                echo $image->toHTML() . "\n\t\t";
             }
             disconnect_database($connexion);
         ?>

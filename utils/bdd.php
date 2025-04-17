@@ -1,56 +1,27 @@
 <?php
     require_once('variables.php');
+    require_once('user.php');
+    require_once('image.php');
+    require_once('logs.php');
 
-    function connection_database(){
-        global $db_host, $db_name, $db_user, $db_password;
+    /**
+     * Crée et renvoie la connexion à la base de donnée en cas de succès, sinon renvoie une chaîne de 
+     * caractère contenant l'erreur.
+     */
+    function connection_database():PDO|string {
         try{
-            $connexion = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_password);
+            $connexion = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME , DB_USER, DB_PASSWORD);
         }
         catch (PDOException $e){
-            echo "Connection failed: " . $e->getMessage();
-            exit;
+            return "Connection failed: " . $e->getMessage();
         }
         return $connexion;
     }
 
-    function disconnect_database(&$connexion){
+    /**
+     * Ferme la connexion à la base de données
+     */
+    function disconnect_database(&$connexion):void {
         $connexion = null;
-    }
-
-    function user_exists($connexion, $username, $email) {
-        $query = "SELECT * FROM users WHERE username = :username OR email = :email";
-        $stmt = $connexion->prepare($query);
-        $stmt->execute([
-            "username" => $username,
-            "email" => $email
-        ]);
-        $result = $stmt->fetchAll();
-
-        if (count($result) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function test_creditentals($connexion, $email, $password){
-        $query = "SELECT * FROM users WHERE email = :email";
-        $stmt = $connexion->prepare($query);
-        $stmt->execute([
-            "email" => $email
-        ]);
-        $user = $stmt->fetch(); 
-        if ($user && password_verify($password, $user["password"])) {
-            return new User(
-                $user["id"], 
-                $user["username"], 
-                $user["email"], 
-                $user["administrator"], 
-                $user["date_joined"], 
-                isset($user["nom"]) ? $user["nom"] : null, 
-                isset($user["prenom"]) ? $user["prenom"] : null
-            );
-        }
-        return false;
     }
 ?>

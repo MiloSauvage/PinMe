@@ -13,8 +13,7 @@
             exit;
         }
         $id = $_GET["id"];
-        $connexion = connection_database();
-        $image = get_image_from_id($connexion, $id);
+        $image = get_image_from_id($id);
         if($image == null){
             exit;
         }
