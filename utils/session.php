@@ -1,4 +1,5 @@
 <?php
+    require_once "user.php";
     session_start();
 
     function is_connected() {
