@@ -12,11 +12,9 @@
     $password = $_POST["password"];
     $email = $_POST["email"];
 
-    $connexion = connection_database();
+    $r = test_creditentals($email, $password);
 
-    $r = test_creditentals($connexion, $email, $password);
-    if($r === false){
-        disconnect_database($connexion);
+    if($r === null){
         log_message("Tentative de connexion échouée pour l'utilisateur : $email");
         header("Location: ../login.php");
         exit;
@@ -24,7 +22,6 @@
     log_message("connexion réussie pour l'utilisateur : $email");
     session_set_user($r);
 
-    disconnect_database($connexion);
     header("Location: ../index.php");
     exit;
 ?>

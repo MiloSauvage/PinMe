@@ -34,7 +34,7 @@
          * Renvoie true si la modification a réussi, false sinon.
          */
         function change_username($new_username):bool {
-            if (user_exists($new_username, $this->email)) {
+            if (user_exists($new_username, "")) {
                 return false;
             }
             $this->username = $new_username;
@@ -55,7 +55,7 @@
         }
 
         function change_email($new_email){
-            if (user_exists($this->username, $new_email)) {
+            if (user_exists("", $new_email)) {
                 return false;
             }
             $this->email = $new_email;
@@ -274,6 +274,7 @@
             "email" => $email
         ]);
         $user = $stmt->fetch(); 
+        disconnect_database($connexion);
         if ($user && password_verify($password, $user["password"])) {
             return new User(
                 $user["id"], 
@@ -285,7 +286,6 @@
                 isset($user["prenom"]) ? $user["prenom"] : null
             );
         }
-        disconnect_database($connexion);
         return null;
     }
 
