@@ -2,6 +2,7 @@
     require_once "../utils/session.php";
     require_once "../utils/user.php";
     require_once "../utils/logs.php";
+    require_once "../utils/variables.php";
 
     $user = session_get_user();
 
@@ -19,7 +20,7 @@
     $new_bio = $_POST["bio"] ?? null;
     $new_photo = $_FILES["profile_photo"] ?? null;
 
-    /*if($new_username !== null){
+    if($new_username !== null){
         if(!$user->change_username($new_username)){
             log_error("Erreur lors du changement de nom d'utilisateur : " . $new_username);
         }
@@ -48,19 +49,22 @@
         if(!$user->change_bio($new_bio)){
             log_error("Erreur lors du changement de la bio.");
         }
-    }*/
+    }
 
     if($new_photo !== null && $new_photo["error"] === 0){
-        $upload_dir = "../images/user_profile_picture/";
-        $upload_file = $upload_dir . basename($new_photo["name"]);
+        $upload_dir = "../images/profile_photos/";
+        $upload_file = $upload_dir . $user->username . "." . EXTENSION_UPLOAD;
         
-        if(){
-            
+        if (!is_dir($upload_dir)) {
+            if (!mkdir(PFP_DIR, 0775, true)) {
+                error_log("Impossible de créer le dossier de log : $dir");
+                return;
+            }
         }
 
         if(move_uploaded_file($new_photo["tmp_name"], $upload_file)){
-            $photo_url = "/images/user_profile_picture/" . basename($new_photo["name"]);
-            if(!$user->change_photo($photo_url)){
+            $photo_url = "/images/profile_photos/" . $user->username . "." . EXTENSION_UPLOAD;
+            if(!$user->change_profile_photo($photo_url)){
                 log_error("Erreur lors du changement de la photo de profil : " . $photo_url);
             }
         } else {
@@ -68,5 +72,5 @@
         }
     }
 
-    //header("Location: ../profile.php?username=" . $user->username);
+    header("Location: ../profile.php?username=" . $user->username);
 ?>
