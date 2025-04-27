@@ -25,17 +25,17 @@
             <!-- Section d'informations utilisateur -->
             <div class="user-info">
                 <?php $user = session_get_user(); ?>
-                <img src="<?= $user->avatar ?? 'images/default-avatar.png' ?>" alt="Avatar" class="avatar">
+                <img src="<?= $user->src_pfp ?? 'images/default-avatar.avif' ?>" alt="Avatar" class="avatar">
                 <p class="username"><?= $user->username ?></p>
                 
                 <!-- Statistiques utilisateur -->
                 <div class="user-stats">
                     <div class="stat-item">
-                        <div class="stat-count"><?= count_user_images($user->id) ?? 0 ?></div>
+                        <!--<div class="stat-count"><.?= count_user_images($user->id) ?? 0 ?></div> -->
                         <div class="stat-label">Images</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-count"><?= count_user_likes($user->id) ?? 0 ?></div>
+                        <!--<div class="stat-count"><.?= count_user_likes($user->id) ?? 0 ?></div> -->
                         <div class="stat-label">J'aimes</div>
                     </div>
                 </div>
@@ -115,6 +115,44 @@
             <div class="recent-images ">
                 <?php
                     $images = get_public_image(1, "Histoire");
+                    if (empty($images)) {
+                        echo '<p class="no-images">Ça semble vide ici !</p>';
+                    } else {
+                        foreach ($images as $image) {
+                            echo "\t\t\t\t<div class=\"image-item\" role=\"button\" post-id=\"$image->id\" data-target=\"#modal\" data-toggle=\"modal\">\n\t\t\t\t";
+                            echo "<img src=\"" . $image->source . "\" alt=\"" . $image->titre . "\">\n\t\t\t\t";
+                            echo "<p>" . $image->titre . "</p>\n\t\t\t\t";
+                            echo "</div>\n";
+                        }
+                    }
+                ?>
+            </div>
+
+            <br>
+            <h2>Catégorie - Artistique :</h2>
+            <br>
+            <div class="recent-images ">
+                <?php
+                    $images = get_public_image(10, null);
+                    if (empty($images)) {
+                        echo '<p class="no-images">Ça semble vide ici !</p>';
+                    } else {
+                        foreach ($images as $image) {
+                            echo "\t\t\t\t<div class=\"image-item\" role=\"button\" post-id=\"$image->id\" data-target=\"#modal\" data-toggle=\"modal\">\n\t\t\t\t";
+                            echo "<img src=\"" . $image->source . "\" alt=\"" . $image->titre . "\">\n\t\t\t\t";
+                            echo "<p>" . $image->titre . "</p>\n\t\t\t\t";
+                            echo "</div>\n";
+                        }
+                    }
+                ?>
+            </div>
+
+            <br>
+            <h2>Catégorie - Artistique :</h2>
+            <br>
+            <div class="recent-images ">
+                <?php
+                    $images = get_public_image(10, null);
                     if (empty($images)) {
                         echo '<p class="no-images">Ça semble vide ici !</p>';
                     } else {
