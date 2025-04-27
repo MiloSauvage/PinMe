@@ -31,6 +31,7 @@
             return "Image: $this->titre, Source: $this->source,  Description: $this->desc, Categories: $this->categories, Tags: $this->tags, Author ID: $this->id_author, Visibility: $this->visibility, Upload Date: $this->upload_date";
         }
 
+        // obselète, à refaire
         function toHTML(){
             return '<div class="post"><a href="#" role="button" post-id="' . $this->id .'" data-target="#modal" data-toggle="modal"><img src="' . htmlspecialchars($this->source) . '" alt="id:' . htmlspecialchars($this->id) . '"></a></div>';
         }
@@ -130,6 +131,57 @@
         $stmt->execute([
             "author_id" => $id
         ]);
+        $images = $stmt->fetchAll();
+        disconnect_database($connexion);
+        if(count($images) === 0){
+            return null;
+        }
+        $images_array = [];
+        foreach ($images as $image) {
+            $img = new Image(
+                $image["id"], 
+                $image["src"], 
+                $image["title"], 
+                $image["description"], 
+                $image["categories"], 
+                $image["tags"], 
+                $image["author_id"], 
+                $image["likes"],
+                $image["visibility"], 
+                $image["upload_date"]
+            );
+            array_push($images_array, $img);
+        }
+        return $images_array;
+    }
+
+    /**
+     * Renvoie un tableau contenant un nombre n d'images aléatoires publics selon une catégorie 
+     * nommée category.
+     * Si category vaut null, renvoie un tableau contenant n images aléatoires publiques.
+     */
+    function get_public_image($n, $category):array|null{
+        if($n < 1){
+            return null;
+        }
+        $connexion = connection_database();
+        if(is_string($connexion)){
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return null;
+        }
+        $query = "SELECT * FROM images WHERE visibility = true";
+        if($category !== null){
+            $query .= " AND categories LIKE :category";
+        }
+        // trie dans l'ordre aléatoire et limite le nombre d'images à n
+        $query .= " ORDER BY RAND() LIMIT :n";
+        $stmt = $connexion->prepare($query);
+        // force l' " int "
+        $stmt->bindValue(':n', $n, PDO::PARAM_INT);
+        if($category !== null){
+            $stmt->bindValue(':category', "%$category%", PDO::PARAM_STR);
+        }
+        $stmt->execute();
         $images = $stmt->fetchAll();
         disconnect_database($connexion);
         if(count($images) === 0){

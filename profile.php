@@ -27,7 +27,6 @@
     <title>@<?= htmlspecialchars($user->username) ?> | Pin-Me</title>
     <link rel="stylesheet" href="./styles/profile.css">
     <script src="./scripts/modal.js" defer></script>
-    <script src="jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <div class="profile-header">

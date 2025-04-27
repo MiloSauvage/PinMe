@@ -1,8 +1,233 @@
-fieldset{
-    margin: auto;
-    width: 50%;
+/* Reset de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-legend {
-    background-color: beige;
+/* Style général */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 20px 20px 20px;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+/* Page Content */
+.page-content {
+    display: flex;
+    gap: 20px;
+}
+
+/* Side Bar */
+.side-bar {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 200px;
+    max-width: 280px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Rendre la sidebar fixe pendant le défilement */
+    position: sticky;
+    top: 20px;
+    height: max-content;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+/* Style pour les informations utilisateur dans la sidebar */
+.user-info {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-info .avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: block;
+    object-fit: cover;
+    border: 3px solid #ff7e5f;
+}
+
+.user-info .username {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.user-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.user-stats .stat-item {
+    flex: 1;
+}
+
+.user-stats .stat-count {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #ff7e5f;
+}
+
+.user-stats .stat-label {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+/* Section des liens rapides */
+.quick-links {
+    margin-top: 20px;
+}
+
+.quick-links h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.quick-links ul {
+    list-style: none;
+}
+
+.quick-links li {
+    margin-bottom: 8px;
+}
+
+.quick-links a {
+    text-decoration: none;
+    color: #555;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    transition: color 0.2s ease;
+}
+
+.quick-links a:hover {
+    color: #ff7e5f;
+}
+
+.quick-links .icon {
+    margin-right: 8px;
+    color: #ff7e5f;
+    font-size: 0.9rem;
+}
+
+.side-bar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Boutons dans la sidebar */
+.side-bar .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.side-bar .cta-buttons a {
+    text-decoration: none;
+    color: white;
+    background: #ff7e5f;
+    padding: 10px 15px;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.side-bar .cta-buttons a:hover {
+    background: #feb47b;
+}
+
+/* Images récentes */
+.recent-images {
+    flex: 4;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+/* Bloc individuel image */
+.image-item {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    /* Assurez une hauteur cohérente */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.image-item:hover {
+    transform: scale(1.03);
+}
+
+.image-item img {
+    width: 100%;
+    height: auto; /* Hauteur fixe pour toutes les images */
+    border-radius: 10px;
+    object-fit: cover; /* Maintient les proportions tout en couvrant l'espace */
+}
+
+.image-item p {
+    margin-top: 10px;
+    font-weight: bold;
+    /* Aligner tous les titres en bas */
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+
+
+/* Quand il n'y a pas d'image */
+.no-images {
+    font-size: 25px;
+    color: #585858;
+    text-align: center;
+    width: 100%;
+    padding: 50px 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-content {
+        flex-direction: column;
+    }
 }
