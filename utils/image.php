@@ -14,7 +14,7 @@
         public $likes;
         public $upload_date;
         
-        function __construct($id, $source,  $titre, $desc = "", $categories = "", $tags = "", $id_author ,$visibility = true, $upload_date, $likes = 0) {
+        function __construct($id, $source,  $titre, $id_author, $upload_date, $desc = "", $categories = "", $tags = "",$visibility = true, $likes = 0) {
             $this->id = $id;
             $this->source = $source;
             $this->titre = $titre;
@@ -37,7 +37,7 @@
         }
 
         function put_in_bdd($bdd) {
-            $req = $bdd->prepare('INSERT INTO images (src, title, description, categories, tags, author_id, likes, visibility, upload_date) VALUES (:src, :title, :description, :categories, :tags, :author_id, :likes, :visibility, :upload_date)');
+            $req = $bdd->prepare('INSERT INTO Images (src, title, description, categories, tags, author_id, likes, visibility, upload_date) VALUES (:src, :title, :description, :categories, :tags, :author_id, :likes, :visibility, :upload_date)');
             $req->execute(array(
                 'src' => $this->source,
                 'title' => $this->titre,
@@ -53,7 +53,7 @@
 
         function delete_from_bdd() {
             $bdd = connection_database();
-            $req = $bdd->prepare('DELETE FROM images WHERE id = :id');
+            $req = $bdd->prepare('DELETE FROM Images WHERE id = :id');
             $req->execute(array('id' => $this->id));
             $filename = basename($this->source);
             $file_dir = UPLOAD_DIR . $filename;
@@ -66,11 +66,20 @@
 
     function get_image_from_id($id) {
         $bdd = connection_database();
-        $req = $bdd->prepare('SELECT * FROM images WHERE id = :id');
+        $req = $bdd->prepare('SELECT * FROM Images WHERE id = :id');
         $req->execute(array('id' => $id));
         $data = $req->fetch();
         if ($data) {
-            return new Image($data['id'], $data['src'], $data['title'], $data['description'], $data['categories'], $data['tags'], $data['author_id'], $data["likes"], $data['visibility'], $data['upload_date']);
+            return new Image($data['id'],
+                             $data['src'],
+                             $data['title'],
+                             $data['author_id'],
+                             $data['upload_date'],
+                             $data['description'],
+                             $data['categories'],
+                             $data['tags'],
+                             $data['visibility'],
+                             $data["likes"]);
         } else {
             return null;
         }
@@ -87,7 +96,7 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "SELECT * FROM images WHERE author_id = :author_id";
+        $query = "SELECT * FROM Images WHERE author_id = :author_id";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "author_id" => $id
@@ -126,7 +135,7 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "SELECT * FROM images WHERE author_id = :author_id AND visibility = true";
+        $query = "SELECT * FROM Images WHERE author_id = :author_id AND visibility = true";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "author_id" => $id
@@ -169,9 +178,9 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "SELECT * FROM images WHERE visibility = true";
+        $query = "SELECT * FROM Images WHERE visibility = true";
         if($category !== null){
-            $query .= " AND categories LIKE :category";
+            $query .= " AND Categories LIKE :category";
         }
         // trie dans l'ordre aléatoire et limite le nombre d'images à n
         $query .= " ORDER BY RAND() LIMIT :n";
@@ -184,6 +193,8 @@
         $stmt->execute();
         $images = $stmt->fetchAll();
         disconnect_database($connexion);
+
+        echo count($images);
         if(count($images) === 0){
             return null;
         }

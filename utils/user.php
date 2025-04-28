@@ -43,7 +43,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET username = :username WHERE id = :id";
+            $query = "UPDATE Users SET username = :username WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "username" => $new_username,
@@ -64,7 +64,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET email = :email WHERE id = :id";
+            $query = "UPDATE Users SET email = :email WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "email" => $new_email,
@@ -82,7 +82,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET password = :password WHERE id = :id";
+            $query = "UPDATE Users SET password = :password WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "password" => $this->password,
@@ -100,7 +100,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET profile_photo_src = :src_pfp WHERE id = :id";
+            $query = "UPDATE Users SET profile_photo_src = :src_pfp WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "src_pfp" => $this->src_pfp,
@@ -119,7 +119,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET bio = :bio WHERE id = :id";
+            $query = "UPDATE Users SET bio = :bio WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "bio" => $this->bio,
@@ -138,7 +138,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET last_name = :nom WHERE id = :id";
+            $query = "UPDATE Users SET last_name = :nom WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "nom" => $new_nom,
@@ -157,7 +157,7 @@
                 log_error("Erreur de connexion à la base de données : " . $connexion);
                 return false;
             }
-            $query = "UPDATE users SET first_name = :prenom WHERE id = :id";
+            $query = "UPDATE Users SET first_name = :prenom WHERE id = :id";
             $stmt = $connexion->prepare($query);
             $stmt->execute([
                 "prenom" => $new_prenom,
@@ -179,7 +179,7 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "SELECT * FROM users WHERE username = :username";
+        $query = "SELECT * FROM Users WHERE username = :username";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "username" => $username
@@ -212,7 +212,7 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return false;
         }
-        $query = "SELECT * FROM users WHERE username = :username OR email = :email";
+        $query = "SELECT * FROM Users WHERE username = :username OR email = :email";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "username" => $username,
@@ -238,13 +238,13 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "INSERT INTO users (username , email, password, administrator, date_joined) VALUES (:username, :email, :password, :administrator, :date_joined)";
+        $query = "INSERT INTO Users (username , email, password, administrator, date_joined) VALUES (:username, :email, :password, :administrator, :date_joined)";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "username" => $username,
             "email" => $email,
             "password" => password_hash($password, PASSWORD_DEFAULT),
-            "administrator" => false,
+            "administrator" => 0,
             "date_joined" => date("Y-m-d H:i:s")
         ]);
         $user = new User(
@@ -268,7 +268,7 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "SELECT * FROM users WHERE email = :email";
+        $query = "SELECT * FROM Users WHERE email = :email";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "email" => $email
