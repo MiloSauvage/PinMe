@@ -4,7 +4,7 @@
     // Base de donnée
     if(1){
         define("DB_HOST", "inf-mysql.univ-rouen.fr");
-        define("DB_NAME", "facqukyl_cctp");
+        define("DB_NAME", "facqukyl");
         define("DB_USER", "facqukyl");
         define("DB_PASSWORD", "12082005");
     }else{

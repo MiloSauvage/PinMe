@@ -14,6 +14,10 @@ body {
     padding: 20px;
 }
 
+.logo-header {
+    width: 200px;
+}
+
 /* Header */
 header {
     text-align: center;
@@ -169,12 +173,19 @@ header p {
     background: #feb47b;
 }
 
+/* Contenant principal des images */
+.img-div {
+    flex: 4;
+    min-width: 0;
+    /* Permet au contenu de se rétrécir correctement */
+}
+
 /* Images récentes */
 .recent-images {
-    flex: 4;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 40px;
+    width: 100%;
 }
 
 /* Bloc individuel image */
@@ -198,9 +209,11 @@ header p {
 
 .image-item img {
     width: 100%;
-    height: auto; /* Hauteur fixe pour toutes les images */
+    height: auto;
+    /* Hauteur fixe pour toutes les images */
     border-radius: 10px;
-    object-fit: cover; /* Maintient les proportions tout en couvrant l'espace */
+    object-fit: cover;
+    /* Maintient les proportions tout en couvrant l'espace */
 }
 
 .image-item p {
@@ -210,8 +223,6 @@ header p {
     margin-top: auto;
     padding-top: 10px;
 }
-
-
 
 /* Quand il n'y a pas d'image */
 .no-images {
@@ -223,11 +234,18 @@ header p {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    grid-column: 1 / -1;
+    /* S'étend sur toutes les colonnes de la grille */
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .page-content {
         flex-direction: column;
+    }
+
+    .side-bar {
+        max-width: 100%;
+        position: static;
     }
 }

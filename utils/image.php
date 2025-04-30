@@ -193,8 +193,6 @@
         $stmt->execute();
         $images = $stmt->fetchAll();
         disconnect_database($connexion);
-
-        echo count($images);
         if(count($images) === 0){
             return null;
         }

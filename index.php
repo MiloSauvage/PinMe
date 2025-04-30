@@ -12,12 +12,11 @@
 
 <body>
     <header>
-        <h1>Pin-me !</h1>
+        <img class="logo-header" src="./public/images/logo/logo.png" alt="Logo">
     </header>
 
     <div class="page-content">
     <div class="side-bar">
-        <h2>Menu</h2>
         <?php
             include_once 'utils/session.php';
         ?>
@@ -25,7 +24,7 @@
             <!-- Section d'informations utilisateur -->
             <div class="user-info">
                 <?php $user = session_get_user(); ?>
-                <img src="<?= $user->src_pfp ?? 'images/default-avatar.avif' ?>" alt="Avatar" class="avatar">
+                <img src="<?= $user->src_pfp ?? 'public/images/default-avatar.avif' ?>" alt="Avatar" class="avatar">
                 <p class="username"><?= $user->username ?></p>
                 
                 <!-- Statistiques utilisateur -->
@@ -45,10 +44,10 @@
             <div class="quick-links">
                 <h3>Actions rapides</h3>
                 <ul>
-                    <li><a href="upload.php"><span class="icon">➕</span> Ajouter une image</a></li>
+                    <li><a href="create-post.php"><span class="icon">➕</span> Ajouter une image</a></li>
                     <li><a href="profile.php?username=<?= $user->username ?>"><span class="icon">👤</span> Mon profil</a></li>
                     <li><a href="favorites.php"><span class="icon">❤️</span> Mes favoris</a></li>
-                    <li><a href="settings.php"><span class="icon">⚙️</span> Paramètres</a></li>
+                    <li><a href="edit-profile.php"><span class="icon">⚙️</span> Paramètres</a></li>
                     <li><a href="process/logout.php"><span class="icon">🚪</span> Se déconnecter</a></li>
                 </ul>
             </div>

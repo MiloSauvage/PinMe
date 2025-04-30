@@ -27,14 +27,14 @@
 
         $image = new Image(
             0, // id
-            str_replace($_SERVER["DOCUMENT_ROOT"], '', UPLOAD_DIR) . $f_name,
+            str_replace(PROJECT_ROOT, '', UPLOAD_DIR) . $f_name,
             $_POST['title'],
+            $_SESSION['user']->id,
+            date("Y-m-d H:i:s"),
             $_POST['description'],
             isset($_POST['categories']) ? $_POST['categories'] : null,
             $_POST['tags'],
-            $_SESSION['user']->id,
-            true, // visibility
-            date("Y-m-d H:i:s")
+            true // visibility
         );
 
         $connexion = connection_database();
