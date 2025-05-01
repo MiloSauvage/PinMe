@@ -62,6 +62,11 @@
             if (file_exists($file_dir)) {
                 unlink($file_dir);
             }
+            //suppressions des commentaires liés à l'image
+            $req = $bdd->prepare('DELETE FROM Comments WHERE image_id = :id');
+            $req->execute(array('id' => $this->id));
+            //suppressions des likes liés à l'image
+            $req = $bdd->prepare('DELETE FROM Likes WHERE image_id = :id');
             disconnect_database($bdd);
         }
     }
@@ -215,5 +220,21 @@
             array_push($images_array, $img);
         }
         return $images_array;
+    }
+
+    function count_user_images($id):int{
+        $connexion = connection_database();
+        if(is_string($connexion)){
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return 0;
+        }
+        $query = "SELECT COUNT(*) FROM Images WHERE author_id = :author_id";
+        $stmt = $connexion->prepare($query);
+        $stmt->execute([
+            "author_id" => $id
+        ]);
+        $count = $stmt->fetchColumn();
+        disconnect_database($connexion);
+        return (int)$count;
     }
 ?>

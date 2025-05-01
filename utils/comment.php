@@ -49,6 +49,17 @@
             $req->execute(array('id' => $this->id));
             disconnect_database($bdd);
         }
+
+        function edit($new_content) {
+            $this->content = $new_content;
+            $bdd = connection_database();
+            $req = $bdd->prepare('UPDATE Comments SET comment = :content WHERE id = :id');
+            $req->execute(array(
+                'content' => $this->content,
+                'id' => $this->id
+            ));
+            disconnect_database($bdd);
+        }
     }
 
     /*
@@ -56,7 +67,7 @@
     */
     function get_comments_from_image_id($id) {
         $bdd = connection_database();
-        $req = $bdd->prepare('SELECT * FROM Comments WHERE image_id = :id');
+        $req = $bdd->prepare('SELECT * FROM Comments WHERE image_id = :id ORDER BY pinned DESC, likes DESC, date DESC');
         $req->execute(array('id' => $id));
         disconnect_database($bdd);
         $comments = array();
@@ -72,5 +83,30 @@
             );
         }
         return $comments;
+    }
+
+    /*
+    * Renvoie le commentaire d'id $id.
+    * Renvoie null si le commentaire n'existe pas.
+    */
+    function get_comment_from_id($id) {
+        $bdd = connection_database();
+        $req = $bdd->prepare('SELECT * FROM Comments WHERE id = :id');
+        $req->execute(array('id' => $id));
+        disconnect_database($bdd);
+        $data = $req->fetch();
+        if ($data) {
+            return new Comment(
+                $data['id'],
+                $data['image_id'],
+                $data['user_id'],
+                $data['comment'],
+                $data['date'],
+                $data['likes'],
+                $data['pinned']
+            );
+        } else {
+            return null;
+        }
     }
 ?>

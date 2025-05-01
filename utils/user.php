@@ -326,4 +326,19 @@
         return null;
     }
 
+    function count_user_likes($id){
+        $connexion = connection_database();
+        if(is_string($connexion)){
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return null;
+        }
+        $query = "SELECT SUM(likes) FROM images WHERE author_id = :user_id";
+        $stmt = $connexion->prepare($query);
+        $stmt->execute([
+            "user_id" => $id
+        ]);
+        $count = $stmt->fetchColumn();
+        disconnect_database($connexion);
+        return $count;
+    }
 ?>
