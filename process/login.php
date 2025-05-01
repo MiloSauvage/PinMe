@@ -16,7 +16,7 @@
 
     if($r === null){
         log_message("Tentative de connexion échouée pour l'utilisateur : $email");
-        header("Location: ../login.php");
+        header("Location: ../login.php?err=1");
         exit;
     }
     log_message("connexion réussie pour l'utilisateur : $email");

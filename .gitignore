@@ -1,3 +1,4 @@
 public/images/uploads/*
 public/images/profile_photos/*
 writable/logs/*
+utils/variables.php
