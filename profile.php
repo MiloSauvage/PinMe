@@ -31,7 +31,7 @@
 <body>
     <div class="profile-header">
         <img 
-            src="<?= isset($user->src_pfp) ? htmlspecialchars($user->src_pfp) : './images/default-avatar.avif' ?>" 
+            src="<?= isset($user->src_pfp) ? htmlspecialchars($user->src_pfp) : '/public/images/default-avatar.avif' ?>" 
             alt="Photo de profil" 
             class="profile-pic"
         >

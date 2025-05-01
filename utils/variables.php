@@ -1,17 +1,20 @@
 <?php
-    // Racine du projet
-    define('PROJECT_ROOT', '/home/l2info/facqukyl/TPWeb/PinMe/');
+
     // Base de donnée
     if(0){
         define("DB_HOST", "inf-mysql.univ-rouen.fr");
         define("DB_NAME", "facqukyl");
         define("DB_USER", "facqukyl");
         define("DB_PASSWORD", "12082005");
+        // Racine du projet
+        define('PROJECT_ROOT', '/home/l2info/facqukyl/TPWeb/PinMe/');
     }else{
         define("DB_HOST", "localhost");
         define("DB_NAME", "pinme");
         define("DB_USER", "root");
         define("DB_PASSWORD", "");
+        // Racine du projet
+        define('PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT'] . "/");
     }
     // Gestion d'images
     define("UPLOAD_DIR", PROJECT_ROOT . "public/images/uploads/");

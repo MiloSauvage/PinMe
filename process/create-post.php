@@ -16,10 +16,12 @@
             $dest = UPLOAD_DIR . $f_name;
         } while (file_exists($dest));
 
+        echo $dest;
+
         $dir = dirname($dest);
         if (!is_dir($dir)) {
             if (!mkdir(UPLOAD_DIR, 0775, true)) {
-                error_log("Impossible de créer le dossier de log : $dir");
+                error_log("Impossible de créer le dossier d'image : $dir");
                 return;
             }
         }
@@ -37,8 +39,7 @@
             true // visibility
         );
 
-        $connexion = connection_database();
-        $image->put_in_bdd($connexion);
+        $image->put_in_bdd();
         
         header('Location: ../profile.php?username=' . $_SESSION['user']->username);
     }

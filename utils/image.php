@@ -36,7 +36,8 @@
             return '<div class="post"><a href="#" role="button" post-id="' . $this->id .'" data-target="#modal" data-toggle="modal"><img src="' . htmlspecialchars($this->source) . '" alt="id:' . htmlspecialchars($this->id) . '"></a></div>';
         }
 
-        function put_in_bdd($bdd) {
+        function put_in_bdd() {
+            $bdd = connection_database();
             $req = $bdd->prepare('INSERT INTO Images (src, title, description, categories, tags, author_id, likes, visibility, upload_date) VALUES (:src, :title, :description, :categories, :tags, :author_id, :likes, :visibility, :upload_date)');
             $req->execute(array(
                 'src' => $this->source,
@@ -49,6 +50,7 @@
                 'visibility' => $this->visibility,
                 'upload_date' => $this->upload_date
             ));
+            disconnect_database($bdd);
         }
 
         function delete_from_bdd() {

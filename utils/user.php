@@ -229,6 +229,43 @@
     }
 
     /**
+     * Renvoie un utilisateur grâce à son id.
+     * Si l'utilisateur n'existe pas, renvoie null.
+     * Si l' id est null, renvoie null.
+     */
+    function get_user_from_id($id):User|null {
+        if($id === null){
+            return null;
+        }
+        $connexion = connection_database();
+        if(is_string($connexion)){
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return false;
+        }
+        $query = "SELECT * FROM Users WHERE id = :id";
+        $stmt = $connexion->prepare($query);
+        $stmt->execute([
+            "id" => $id
+        ]);
+        $user = $stmt->fetch();
+        disconnect_database($connexion);
+        if(!$user){
+            return null;
+        }
+        return new User(
+            $user["id"], 
+            $user["username"], 
+            $user["email"], 
+            $user["administrator"], 
+            $user["date_joined"], 
+            $user["last_name"] ?? null, 
+            $user["first_name"] ?? null,
+            $user["bio"] ?? null,
+            $user["profile_photo_src"] ?? null
+        );
+    }
+
+    /**
      * Ajoute un utilisateur dans la base de données.
      * Renvoie l'utilisateur créé ou null en cas d'erreur.
      */

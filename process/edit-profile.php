@@ -52,7 +52,7 @@
     }
 
     if($new_photo !== null && $new_photo["error"] === 0){
-        $upload_dir = "../images/profile_photos/";
+        $upload_dir = "../public/images/profile_photos/";
         $upload_file = $upload_dir . $user->username . "." . EXTENSION_UPLOAD;
         
         if (!is_dir($upload_dir)) {
@@ -63,7 +63,7 @@
         }
 
         if(move_uploaded_file($new_photo["tmp_name"], $upload_file)){
-            $photo_url = "/images/profile_photos/" . $user->username . "." . EXTENSION_UPLOAD;
+            $photo_url = "public/images/profile_photos/" . $user->username . "." . EXTENSION_UPLOAD;
             if(!$user->change_profile_photo($photo_url)){
                 log_error("Erreur lors du changement de la photo de profil : " . $photo_url);
             }

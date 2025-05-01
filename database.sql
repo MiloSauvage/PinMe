@@ -37,8 +37,9 @@ CREATE TABLE Comments (
     image_id INT NOT NULL,
     user_id INT NOT NULL,
     comment TEXT NOT NULL,
-    pinned BOOLEAN DEFAULT FALSE,
+    pinned BOOLEAN NOT NULL,
     date DATETIME NOT NULL,
+    likes INT NOT NULL,
     FOREIGN KEY (image_id) REFERENCES Images(id)
         ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users(id)
