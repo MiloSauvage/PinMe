@@ -8,17 +8,13 @@
         public $id_author;
         public $content;
         public $upload_date;
-        public $likes;
-        public $pinned;
         
-        function __construct($id, $linked_image_id, $id_author, $content, $upload_date, $likes = 0, $pinned = false) {
+        function __construct($id, $linked_image_id, $id_author, $content, $upload_date) {
             $this->id = $id;
             $this->linked_image_id = $linked_image_id;
             $this->id_author = $id_author;
             $this->content = $content;
             $this->upload_date = $upload_date;
-            $this->likes = $likes;
-            $this->pinned = $pinned;
         }
 
         function __toString() {
@@ -31,14 +27,12 @@
 
         function put_in_bdd() {
             $bdd = connection_database();
-            $req = $bdd->prepare('INSERT INTO Comments (image_id, user_id, comment, date, likes, pinned) VALUES (:linked_image_id, :id_author, :content, :upload_date, :likes, :pinned)');
+            $req = $bdd->prepare('INSERT INTO Comments (image_id, user_id, comment, date) VALUES (:linked_image_id, :id_author, :content, :upload_date)');
             $req->execute(array(
                 'linked_image_id' => $this->linked_image_id,
                 'id_author' => $this->id_author,
                 'content' => $this->content,
-                'upload_date' => $this->upload_date,
-                'likes' => 0,
-                'pinned' => false
+                'upload_date' => $this->upload_date
             ));
             disconnect_database($bdd);
         }
@@ -67,7 +61,7 @@
     */
     function get_comments_from_image_id($id) {
         $bdd = connection_database();
-        $req = $bdd->prepare('SELECT * FROM Comments WHERE image_id = :id ORDER BY pinned DESC, likes DESC, date DESC');
+        $req = $bdd->prepare('SELECT * FROM Comments WHERE image_id = :id ORDER BY date DESC');
         $req->execute(array('id' => $id));
         disconnect_database($bdd);
         $comments = array();
@@ -77,9 +71,7 @@
                 $data['image_id'],
                 $data['user_id'],
                 $data['comment'],
-                $data['date'],
-                $data['likes'],
-                $data['pinned']
+                $data['date']
             );
         }
         return $comments;
@@ -101,9 +93,7 @@
                 $data['image_id'],
                 $data['user_id'],
                 $data['comment'],
-                $data['date'],
-                $data['likes'],
-                $data['pinned']
+                $data['date']
             );
         } else {
             return null;
