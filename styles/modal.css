@@ -457,3 +457,115 @@
         padding-right: 90px; /* Espace pour les boutons */
     }
 }
+
+
+
+
+/* === Styles pour le bouton de like du post === */
+.post-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.post-like-btn {
+    background: none;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+
+}
+
+.post-like-btn:not(.liked) {
+    background-color: white;
+}
+
+.post-like-btn.liked {
+    background-color: #fff0f0;
+    border-color: #ffb3b3;
+}
+
+.post-like-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-like-btn:active {
+    transform: translateY(0);
+}
+
+.post-like-btn .like-icon {
+    font-size: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    top: -1px;
+}
+
+.post-like-btn .like-count {
+    font-weight: 600;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.post-like-btn.liked .like-count {
+    color: #ff4136;
+}
+
+/* Style pour l'info de like quand non connecté */
+.post-like-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 2px solid #eee;
+    border-radius: 50px;
+    background-color: #f9f9f9;
+}
+
+.post-like-info .like-icon {
+    font-size: 20px;
+    opacity: 0.7;
+}
+
+.post-like-info .like-count {
+    font-weight: 600;
+    color: #666;
+}
+
+.like-login-prompt {
+    font-size: 14px;
+    color: #888;
+    margin-left: 5px;
+}
+
+.like-login-prompt a {
+    color: #ff7e5f;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.like-login-prompt a:hover {
+    color: #feb47b;
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 576px) {
+    .post-like-btn, .post-like-info {
+        width: 100%;
+        justify-content: center;
+    }
+}

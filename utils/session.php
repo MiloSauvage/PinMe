@@ -7,11 +7,11 @@
     }
 
     function session_set_user($user) {
-        $_SESSION["user"] = $user;
+        $_SESSION["user"] = get_user_from_id($user->id);
     }
 
     function session_get_user() {
-        return $_SESSION["user"];
+        return $_SESSION["user"] ?? null;
     }
 
     function session_stop() {

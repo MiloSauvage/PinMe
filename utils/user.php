@@ -332,7 +332,7 @@
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return null;
         }
-        $query = "SELECT SUM(likes) FROM Images WHERE author_id = :user_id";
+        $query = "SELECT COUNT(*) FROM Likes WHERE image_id in (SELECT id FROM Images WHERE author_id = :user_id)";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
             "user_id" => $id

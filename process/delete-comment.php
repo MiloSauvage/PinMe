@@ -8,14 +8,14 @@
         $comment = get_comment_from_id(($_GET["id"]) );
         if($user->administrator || $user->id === $comment->id_author){
             $comment->delete_from_bdd();
-            header("Location: ../index.php");
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
             exit;
         } else {
-            header("Location: ../index.php?error=not_authorized");
+            header("Location: " . $_SERVER["HTTP_REFERER"] . "?error=not_authorized");
             exit;
         }
     } else {
-        header("Location: ../index.php?error=not_connected");
+        header("Location: " . $_SERVER["HTTP_REFERER"] . "?error=not_connected");
         exit;
     }
 ?>

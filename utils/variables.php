@@ -1,7 +1,7 @@
 <?php
 
     // Base de donnée
-    if(1){
+    if(0){
         define("DB_HOST", "inf-mysql.univ-rouen.fr");
         define("DB_NAME", "facqukyl");
         define("DB_USER", "facqukyl");

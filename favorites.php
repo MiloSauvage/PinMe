@@ -3,21 +3,18 @@
     include_once("./utils/bdd.php");
     include_once("./utils/image.php");
 
-    $query = $_GET["q"] ?? null;
-    $category = $_GET["category"] ?? null;
-    $sort = $_GET["sort"] ?? null;
-
-    if($query === null || $category  === null|| $sort === null || !is_connected()){
+    if(!is_connected()){
         header("location: " . $_SERVER["HTTP_REFERER"]);
         exit;
     }
+    $user = session_get_user();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultat - PinMe !</title>
+    <title>Favoris - PinMe !</title>
     <link rel="stylesheet" href="./styles/index.css">
     <link rel="stylesheet" href="./styles/modal.css">
 
@@ -27,32 +24,15 @@
     <?php
         $sql = "SELECT *
         FROM Images
-        WHERE ( LOWER(title) LIKE LOWER(CONCAT('%', :search, '%'))
-           OR tags LIKE LOWER(CONCAT('%', :search, '%'))
-           OR description LIKE LOWER(CONCAT('%', :search, '%')))";
-        
-        if($category !== ""){
-            $sql .= " AND categories like $category";
-        }
-
-        $sql .= " ORDER BY ";
-
-        switch($sort){
-            case "popular":
-                $sql .= "like";
-                break;
-            case "oldest":
-                $sql .= "upload_date DESC";
-                break;
-            default:
-                $sql .= "upload_date";
-                break;
-        }
+        WHERE id IN (
+            SELECT image_id
+            FROM Likes
+            WHERE user_id = :user_id
+        )";
                     
         $connexion = connection_database();
-        //function __construct($id, $source,  $titre, $id_author, $upload_date, $desc = "", $categories = "", $tags = "",$visibility = true, $likes = 0) {
         $stmt = $connexion->prepare($sql);
-        $stmt->bindValue(':search', $query);
+        $stmt->bindValue(':user_id', $user->id);
         $stmt->execute();
         $images = $stmt->fetchAll();
         disconnect_database($connexion);
@@ -81,9 +61,8 @@
     <div class="page-content">
     <?php include_once 'utils/side-bar.php';?>
 
-
     <div class="img-div">
-        <h2>Les images les plus récentes :</h2>
+        <h2>Vos images favorites</h2>
         <br>
         <div class="recent-images ">
             <?php

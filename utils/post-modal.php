@@ -4,6 +4,7 @@
     require_once("./comment.php");
     require_once("./user.php");
     require_once("./session.php");
+    require_once("./like.php");
 
 
     if(!isset($_GET["id"])){
@@ -13,6 +14,14 @@
     $image = get_image_from_id($id);
     if($image == null){
         exit;
+    }
+    $user = session_get_user();
+    // Vérifier si l'utilisateur courant a liké ce post
+    $is_liked = false;
+    $like_count = get_post_like_count($image);
+    if(is_connected()) {
+        $current_user_id = $_SESSION['user']->id;
+        $is_liked = check_if_post_liked($image, $user);
     }
 ?>
 <div class="modal-close" data-dismiss="post">&times;</div>
@@ -42,6 +51,23 @@
     <div class="img">
         <img src="<?= htmlspecialchars($image->source) ?>" alt="Image">
     </div>
+    
+    <!-- Bouton de like pour le post -->
+    <div class="post-actions">
+        <?php if(is_connected()): ?>
+        <a href="./process/<?= $is_liked ? "dis" : ""?>like-post.php?id=<?= $id?>" class="post-like-btn <?= $is_liked ? 'liked' : '' ?>">
+            <span class="like-icon"><?= $is_liked ? '❤️' : '🤍' ?></span>
+            <span class="like-count"><?= $like_count > 0 ? $like_count : '' ?></span>
+        </a>
+        <?php else: ?>
+        <div class="post-like-info">
+            <span class="like-icon">🤍</span>
+            <span class="like-count"><?= $like_count > 0 ? $like_count : '' ?></span>
+            <span class="like-login-prompt">Pour aimer, <a href="login.php">connectez-vous</a></span>
+        </div>
+        <?php endif; ?>
+    </div>
+    
     <div class="comments">
         <h3>Commentaires</h3>
         <div class="comment-list">
@@ -54,8 +80,8 @@
                         $user = get_user_from_id($comment->id_author);
                         $username = $user === null ? "Utilisateur inconnu" : $user->username;
                         $profile_pic = $user === null ? "./public/images/default-avatar.avif" : ($user->src_pfp ?? "./public/images/default-avatar.avif");
-                        $is_post_author = ($user->id == $image->id_author);
-                        $is_comment_author = ($user->id == $comment->id_author);
+                        $is_post_author = ($user && $image->id_author == $user->id);
+                        $is_comment_author = ($user && is_connected() && $_SESSION['user']->id == $user->id);
                     
                         echo "<div class='comment'>";
                         echo "<div class='comment-header'>";
@@ -63,7 +89,7 @@
                         echo "<p class='comment-author'><a href='profile.php?username=$username'>$username</a></p>";
                         echo "<span class='comment-date'>" . format_date($comment->upload_date) . "</span>";
                         
-                        // Actions sur les commentaires (like, supprimer, épingler)
+                        // Actions sur les commentaires
                         echo "<div class='comment-actions'>";
                         
                         // Boutons pour l'auteur du post uniquement
@@ -102,7 +128,6 @@
                         return $date->format('d/m/Y à H:i');
                     }
                 }
-
             ?>
         </div>
     

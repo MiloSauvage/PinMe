@@ -27,12 +27,11 @@
 
         function put_in_bdd() {
             $bdd = connection_database();
-            $req = $bdd->prepare('INSERT INTO Comments (image_id, user_id, comment, date) VALUES (:linked_image_id, :id_author, :content, :upload_date)');
+            $req = $bdd->prepare('INSERT INTO Comments (image_id, user_id, comment, date) VALUES (:linked_image_id, :id_author, :content, NOW())');
             $req->execute(array(
                 'linked_image_id' => $this->linked_image_id,
                 'id_author' => $this->id_author,
-                'content' => $this->content,
-                'upload_date' => $this->upload_date
+                'content' => $this->content
             ));
             disconnect_database($bdd);
         }

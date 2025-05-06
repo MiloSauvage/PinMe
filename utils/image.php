@@ -38,6 +38,10 @@
 
         function put_in_bdd() {
             $bdd = connection_database();
+            if (is_string($bdd)) {
+                log_error("Erreur de connexion à la base de données : " . $bdd);
+                return;
+            }
             $req = $bdd->prepare('INSERT INTO Images (src, title, description, categories, tags, author_id, likes, visibility, upload_date) VALUES (:src, :title, :description, :categories, :tags, :author_id, :likes, :visibility, :upload_date)');
             $req->execute(array(
                 'src' => $this->source,
@@ -55,6 +59,10 @@
 
         function delete_from_bdd() {
             $bdd = connection_database();
+            if (is_string($bdd)) {
+                log_error("Erreur de connexion à la base de données : " . $bdd);
+                return;
+            }
             $req = $bdd->prepare('DELETE FROM Images WHERE id = :id');
             $req->execute(array('id' => $this->id));
             $filename = basename($this->source);
@@ -73,6 +81,10 @@
 
     function get_image_from_id($id) {
         $bdd = connection_database();
+        if (is_string($bdd)) {
+            log_error("Erreur de connexion à la base de données : " . $bdd);
+            return null;
+        }
         $req = $bdd->prepare('SELECT * FROM Images WHERE id = :id');
         $req->execute(array('id' => $id));
         $data = $req->fetch();
