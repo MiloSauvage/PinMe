@@ -5,7 +5,7 @@
     require_once("./user.php");
     require_once("./session.php");
     require_once("./like.php");
-
+    require_once("./annotation.php");
 
     if(!isset($_GET["id"])){
         exit;
@@ -23,6 +23,9 @@
         $current_user_id = $_SESSION['user']->id;
         $is_liked = check_if_post_liked($image, $user);
     }
+    
+    // Récupérer les annotations liées à cette image
+    $annotations = get_annotations_by_image_id($id);
 ?>
 <div class="modal-close" data-dismiss="post">&times;</div>
 <div class="modal-header">
@@ -48,8 +51,30 @@
     </div>
 </div>
 <div class="modal-body">
-    <div class="img">
-        <img src="<?= htmlspecialchars($image->source) ?>" alt="Image">
+    <div class="img-container position-relative">
+        <img src="<?= htmlspecialchars($image->source) ?>" alt="Image" class="post-image" id="annotated-image">
+        
+        <!-- Container pour les annotations -->
+        <div class="annotations-container">
+            <?php foreach($annotations as $annotation): ?>
+                <?php 
+                    $annotation_user = get_user_from_id($annotation->user_id);
+                    $username = $annotation_user !== null ? htmlspecialchars($annotation_user->username) : "Utilisateur inconnu";
+                ?>
+                <div class="annotation-marker" 
+                     data-id="<?= $annotation->id ?>"
+                     data-pos-x="<?= $annotation->position_x ?>"
+                     data-pos-y="<?= $annotation->position_y ?>"
+                     data-width="<?= $annotation->width ?>"
+                     data-height="<?= $annotation->height ?>"
+                     style="border-color: <?= $annotation->color ?>;">
+                    <div class="annotation-tooltip">
+                        <strong><?= htmlspecialchars($annotation->title) ?></strong>
+                        <span class="annotation-author">Par: <?= $username ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
     
     <!-- Bouton de like pour le post -->

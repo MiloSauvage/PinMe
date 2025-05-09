@@ -607,3 +607,209 @@
         justify-content: center;
     }
 }
+
+
+/* === Styles pour les annotations === */
+
+/* Conteneur relatif pour positionner les annotations */
+.img-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.post-image {
+    max-width: 100%;
+    max-height: 70vh;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+}
+
+/* Conteneur pour les annotations */
+.annotations-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Permet les clics à travers vers l'image */
+}
+
+/* Marqueur d'annotation */
+.annotation-marker {
+    position: absolute;
+    border: 2px dashed;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+    pointer-events: auto;
+    /* Permet de cliquer sur l'annotation */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    /* Centre le marqueur sur le point de coordonnées */
+}
+
+.annotation-marker:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Bulle d'info pour l'annotation */
+.annotation-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 150px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 20;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.annotation-marker:hover .annotation-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.annotation-tooltip strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.annotation-author {
+    font-size: 0.8rem;
+    color: #888;
+    display: block;
+}
+
+/* Animation des marqueurs */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.annotation-marker.new {
+    animation: pulse 1s ease infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .annotation-tooltip {
+        min-width: 120px;
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+}
+
+/* Ajout de styles pour l'interaction */
+.modal-body {
+    position: relative;
+}
+
+/* Style pour le mode d'ajout d'annotation */
+.annotation-mode .post-image {
+    cursor: crosshair;
+}
+
+/* Style pour l'annotation sélectionnée */
+.annotation-marker.selected {
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 0.4);
+    z-index: 30;
+}
+
+/* Style pour la boîte de détail d'annotation */
+.annotation-details {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 40;
+    width: 300px;
+    max-width: 90%;
+}
+
+.annotation-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.annotation-details-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.annotation-details-close {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.annotation-details-content {
+    margin-bottom: 15px;
+}
+
+.annotation-details-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Ajout de style pour le bouton de suppression d'annotation */
+.annotation-delete {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+.annotation-delete:hover {
+    opacity: 1;
+    text-decoration: underline;
+}

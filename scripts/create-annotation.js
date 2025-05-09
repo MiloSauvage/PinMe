@@ -129,15 +129,30 @@ $(document).ready(function () {
             color: currentColor
         };
 
+        let ratio = 0;
+        const img = document.querySelector("#annotationImage");
+        const imgWidth = img.naturalWidth;
+        alert(imgWidth);
+        const imgWidthContainer = img.clientWidth;
+        alert(imgWidthContainer);
+        ratio = imgWidth / imgWidthContainer;
+
         // appel de la page php pour sauvegarder l'annotation avec
         // tous les paramètres en POST
+
+        alert(ratio);
+        alert(annotation.x * ratio);
+        alert(annotation.y * ratio);
+        alert(annotation.width * ratio);
+        alert(annotation.height * ratio);
+
         $.post("./process/create-annotation.php", {
             // valeur du champs img-id de #annotationImage
             image_id: $("#annotationImage").attr("img-id"),
-            pos_x: annotation.x,
-            pos_y: annotation.y,
-            width: annotation.width,
-            height: annotation.height,
+            pos_x: annotation.x * ratio,
+            pos_y: annotation.y * ratio,
+            width: annotation.width * ratio,
+            height: annotation.height * ratio,
             title: annotation.title,
             color: annotation.color
         }).done(function (response) {

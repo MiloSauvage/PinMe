@@ -55,4 +55,20 @@
         }
 
     }
+
+    function get_annotations_by_image_id($image_id) {
+        $bdd = connection_database();
+        if (is_string($bdd)) {
+            log_error("Erreur de connexion à la base de données : " . $bdd);
+            return false;
+        }
+        $req = $bdd->prepare('SELECT * FROM Annotations WHERE image_id = :image_id');
+        $req->execute(array('image_id' => $image_id));
+        $annotations = array();
+        while ($data = $req->fetch()) {
+            $annotations[] = new Annotation($data['id'], $data['image_id'], $data['title'], $data['user_id'], $data['position_x'], $data['position_y'], $data['width'], $data['height'], $data['color']);
+        }
+        disconnect_database($bdd);
+        return $annotations;
+    }
 ?>
