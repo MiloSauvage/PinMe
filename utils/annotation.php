@@ -54,6 +54,42 @@
             disconnect_database($bdd);
         }
 
+        function delete_from_bdd():bool{
+            $bdd = connection_database();
+            if (is_string($bdd)) {
+                log_error("Erreur de connexion à la base de données : " . $bdd);
+                return false;
+            }
+            $req = $bdd->prepare('DELETE FROM Annotations WHERE id = :id');
+            $req->execute(array('id' => $this->id));
+            if ($req->rowCount() > 0) {
+                return true;
+            } else {
+                log_error("Erreur lors de la suppression de l'annotation : " . $req->errorInfo()[2]);
+                return false;
+            }
+            disconnect_database($bdd);
+        }
+
+    }
+
+    function get_annotation_by_id($id){
+        $bdd = connection_database();
+        if (is_string($bdd)) {
+            log_error("Erreur de connexion à la base de données : " . $bdd);
+            return false;
+        }
+        $req = $bdd->prepare('SELECT * FROM Annotations WHERE id = :id');
+        $req->execute(array('id' => $id));
+        $data = $req->fetch();
+        if ($data) {
+            $annotation = new Annotation($data['id'], $data['image_id'], $data['title'], $data['user_id'], $data['position_x'], $data['position_y'], $data['width'], $data['height'], $data['color']);
+            disconnect_database($bdd);
+            return $annotation;
+        } else {
+            disconnect_database($bdd);
+            return null;
+        }
     }
 
     function get_annotations_by_image_id($image_id) {

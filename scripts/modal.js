@@ -58,6 +58,50 @@ window.onload = () => {
             modal.children[0].addEventListener('click', (e) => {
                 e.stopPropagation();
             });
+
+            const annotationDeleteButtons = modal.querySelectorAll('.annotation-delete-btn');
+
+            annotationDeleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    if (e.target && e.target.classList.contains('annotation-delete-btn')) {
+                        e.preventDefault(); s
+
+                        const annotationId = e.target.getAttribute('data-annotation-id');
+                        deleteAnnotation(annotationId);
+                    }
+                });
+            });
+
+
+            async function deleteAnnotation(annotationId) {
+                try {
+                    // Préparation des données pour la requête POST
+                    const formData = new FormData();
+                    formData.append('id', annotationId);
+                    // Envoi de la requête
+                    const response = await fetch('process/delete-annotation.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la suppression');
+                    }
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Suppression réussie - on supprime l'élément du DOM
+                        const annotationElement = document.querySelector(`.annotation-marker[data-id="${annotationId}"]`);
+                        if (annotationElement) {
+                            annotationElement.remove();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                }
+            }
+
         });
     });
 

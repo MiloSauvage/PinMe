@@ -62,15 +62,18 @@
                     $username = $annotation_user !== null ? htmlspecialchars($annotation_user->username) : "Utilisateur inconnu";
                 ?>
                 <div class="annotation-marker" 
-                     data-id="<?= $annotation->id ?>"
-                     data-pos-x="<?= $annotation->position_x ?>"
-                     data-pos-y="<?= $annotation->position_y ?>"
-                     data-width="<?= $annotation->width ?>"
-                     data-height="<?= $annotation->height ?>"
-                     style="border-color: <?= $annotation->color ?>;">
+                    data-id="<?= $annotation->id ?>"
+                    data-pos-x="<?= $annotation->position_x ?>"
+                    data-pos-y="<?= $annotation->position_y ?>"
+                    data-width="<?= $annotation->width ?>"
+                    data-height="<?= $annotation->height ?>"
+                    style="border-color: <?= $annotation->color ?>;">
                     <div class="annotation-tooltip">
                         <strong><?= htmlspecialchars($annotation->title) ?></strong>
                         <span class="annotation-author">Par: <?= $username ?></span>
+                        <?php if(is_connected() && ($annotation->user_id == $_SESSION['user']->id || $image->id_author == $_SESSION['user']->id)): ?>
+                            <a href="#" class="annotation-delete-btn" data-annotation-id="<?= $annotation->id ?>">🗑️</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>

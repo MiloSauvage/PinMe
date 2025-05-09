@@ -108,14 +108,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="annotation-list">
-                <h3>Annotations existantes</h3>
-                <div id="annotationsList">
-                    <!-- Les annotations seront ajoutées ici dynamiquement -->
-                    <p class="no-annotations">Aucune annotation n'existe encore pour cette image.</p>
-                </div>
-            </div>
         </div>
     </div>
 </body>

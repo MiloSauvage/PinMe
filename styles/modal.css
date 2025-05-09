@@ -813,3 +813,53 @@
     opacity: 1;
     text-decoration: underline;
 }
+
+
+/* Style pour le bouton de suppression d'annotation */
+.annotation-delete-btn {
+    display: inline-block;
+    background: white;
+    color: #e74c3c;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.annotation-delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Étendre un peu la tooltip pour accommoder le bouton */
+.annotation-tooltip {
+    min-width: 180px;
+    padding: 10px 15px;
+    /* Amélioration de la durée d'affichage et de l'interaction */
+    transition-delay: 0.1s;
+    pointer-events: auto;
+    /* Permet l'interaction avec les éléments de la tooltip */
+}
+
+/* Amélioration de la persistance de la tooltip */
+.annotation-marker:hover .annotation-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+    transition-delay: 0s;
+}
+
+/* Garder la tooltip visible quand on la survole */
+.annotation-tooltip:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(-5px) !important;
+}
