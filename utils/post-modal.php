@@ -59,11 +59,14 @@
             <span class="like-icon"><?= $is_liked ? '❤️' : '🤍' ?></span>
             <span class="like-count"><?= $like_count > 0 ? $like_count : '' ?></span>
         </a>
+        <a href="./create-annotation.php?id=<?= $id?>" class="post-pin-btn">
+            <span class="pin-icon">📌</span>
+        </a>
         <?php else: ?>
         <div class="post-like-info">
             <span class="like-icon">🤍</span>
             <span class="like-count"><?= $like_count > 0 ? $like_count : '' ?></span>
-            <span class="like-login-prompt">Pour aimer, <a href="login.php">connectez-vous</a></span>
+            <span class="like-login-prompt">Pour <strong>aimer</strong>, ou <strong>annoter</strong> <a href="login.php">connectez-vous</a></span>
         </div>
         <?php endif; ?>
     </div>

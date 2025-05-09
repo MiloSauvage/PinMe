@@ -50,9 +50,11 @@ CREATE TABLE Annotations (
     image_id INT NOT NULL,
     title VARCHAR(255),
     user_id INT NOT NULL,
-    description TEXT,
+    color VARCHAR(255),
     position_x INT NOT NULL,
     position_y INT NOT NULL,
+    width INT NOT NULL,
+    height INT NOT NULL,
     FOREIGN KEY (image_id) REFERENCES Images(id)
         ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users(id)
