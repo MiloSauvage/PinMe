@@ -1,5 +1,5 @@
-CREATE DATABASE pinme;
-USE pinme;
+-- CREATE DATABASE pinme;
+USE facqukyl;
 
 -- Users table
 CREATE TABLE Users (

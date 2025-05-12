@@ -54,6 +54,7 @@
                 'visibility' => $this->visibility,
                 'upload_date' => $this->upload_date
             ));
+            $this->id = $bdd->lastInsertId();
             disconnect_database($bdd);
         }
 

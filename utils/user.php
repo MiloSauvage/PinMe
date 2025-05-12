@@ -284,8 +284,9 @@
             "administrator" => 0,
             "date_joined" => date("Y-m-d H:i:s")
         ]);
+        $last_Id = $connexion->lastInsertId();
         $user = new User(
-            null, 
+            $last_Id, 
             $username, 
             $email, 
             false, 
