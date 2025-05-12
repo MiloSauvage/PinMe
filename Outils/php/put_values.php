@@ -77,7 +77,7 @@
 
     // Ajout des commentaires
 
-    /*$Personnes[] = [$Ambre, $Perrine, $Christopher, $Philippe];
+    $Personnes[] = [$Ambre, $Perrine, $Christopher, $Philippe];
     $Commentaires[] = ['Trop belle !', 'Trop moche !', 'Trop bien !', 'Trop nul !'];
 
     $Personnes.forall(function($personne) {
@@ -85,7 +85,7 @@
             $commentaire = new Comment($id, $linked_image_id, $id_author, $content, $upload_date);
             $commentaire->put_in_bdd();
         });
-    });*/
+    });
 
 
 

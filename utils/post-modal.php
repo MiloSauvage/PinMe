@@ -1,11 +1,11 @@
 <?php
-    require_once("./image.php");
-    require_once("./bdd.php");
-    require_once("./comment.php");
-    require_once("./user.php");
-    require_once("./session.php");
-    require_once("./like.php");
-    require_once("./annotation.php");
+    require_once("../utils/image.php");
+    require_once("../utils/bdd.php");
+    require_once("../utils/comment.php");
+    require_once("../utils/user.php");
+    require_once("../utils/session.php");
+    require_once("../utils/like.php");
+    require_once("../utils/annotation.php");
 
     if(!isset($_GET["id"])){
         exit;
@@ -71,8 +71,8 @@
                     <div class="annotation-tooltip">
                         <strong><?= htmlspecialchars($annotation->title) ?></strong>
                         <span class="annotation-author">Par: <?= $username ?></span>
-                        <?php if(is_connected() && ($annotation->user_id == $_SESSION['user']->id || $image->id_author == $_SESSION['user']->id)): ?>
-                            <a href="#" class="annotation-delete-btn" data-annotation-id="<?= $annotation->id ?>">🗑️</a>
+                        <?php if(is_connected() && ($annotation->user_id == $_SESSION['user']->id || $image->id_author == session_get_user())): ?>
+                            <a href="process/delete-annotation.php?id=<?=$id?>" class="annotation-delete-btn" data-annotation-id="<?= $annotation->id ?>">🗑️</a>
                         <?php endif; ?>
                     </div>
                 </div>
