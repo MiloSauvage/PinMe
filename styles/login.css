@@ -1,11 +1,9 @@
-/* Reset de base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Style général */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f9f9f9;
@@ -23,7 +21,6 @@ body {
     margin: 0 auto;
 }
 
-/* Header */
 header {
     text-align: center;
     padding: 40px 20px 20px 20px;
@@ -33,7 +30,6 @@ header {
     margin-bottom: 40px;
 }
 
-/* Page Content */
 .page-content {
     flex: 1;
     display: flex;
@@ -42,7 +38,6 @@ header {
     padding: 20px;
 }
 
-/* Conteneur principal du formulaire */
 .login-container {
     background: white;
     border-radius: 10px;
@@ -52,7 +47,6 @@ header {
     width: 100%;
 }
 
-/* Titre du formulaire */
 .form-title {
     color: #333;
     margin-bottom: 30px;
@@ -61,7 +55,6 @@ header {
     font-weight: 600;
 }
 
-/* Style des groupes de formulaire */
 .form-group {
     margin-bottom: 25px;
 }
@@ -89,7 +82,6 @@ header {
     box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.2);
 }
 
-/* Options de connexion (se souvenir de moi, mot de passe oublié) */
 .form-options {
     display: flex;
     justify-content: space-between;
@@ -118,7 +110,6 @@ header {
     text-decoration: underline;
 }
 
-/* Bouton de soumission */
 .submit-button {
     width: 100%;
     background: linear-gradient(135deg, #ff7e5f, #feb47b);
@@ -143,7 +134,6 @@ header {
     transform: translateY(0);
 }
 
-/* Lien d'inscription */
 .register-link {
     text-align: center;
     margin: 25px 0;
@@ -163,12 +153,10 @@ header {
     text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 500px) {
     .login-container {
         padding: 30px 20px;
     }
-    
     .form-options {
         flex-direction: column;
         align-items: flex-start;

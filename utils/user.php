@@ -1,345 +1,387 @@
 <?php
-    require_once("bdd.php");
+require_once("bdd.php");
 
-    class User {
-        public $id;
-        public $username;
-        public $email;
-        public $administrator;
-        public $date_joined;
-        public $nom;
-        public $prenom;
-        public $password;
-        public $src_pfp;
-        public $bio;
-        
-        function __construct($id, $username, $email, $administrator, $date_joined, $nom = null, $prenom = null, $bio = null, $src_pfp = null) {
-            $this->id = $id;
-            $this->username = $username;
-            $this->email = $email;
-            $this->administrator = $administrator;
-            $this->date_joined = $date_joined;
-            $this->nom = $nom;
-            $this->prenom = $prenom;
-            $this->bio = $bio;
-            $this->src_pfp = $src_pfp;
-        }
+class User {
+    public int $id;
+    public string $username;
+    public string $email;
+    public bool $administrator;
+    public string $date_joined;
+    public ?string $nom;
+    public ?string $prenom;
+    public ?string $password;
+    public ?string $src_pfp;
+    public ?string $bio;
 
-        function __toString() {
-            return "User: $this->username, Email: $this->email, Administrator: $this->administrator, Date Joined: $this->date_joined";
-        }
+    public function __construct(
+        int $id,
+        string $username,
+        string $email,
+        bool $administrator,
+        string $date_joined,
+        ?string $nom = null,
+        ?string $prenom = null,
+        ?string $bio = null,
+        ?string $src_pfp = null
+    ) {
+        $this->id = $id;
+        $this->username = $username;
+        $this->email = $email;
+        $this->administrator = $administrator;
+        $this->date_joined = $date_joined;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->bio = $bio;
+        $this->src_pfp = $src_pfp;
+    }
 
-        /**
-         * Change le nom d'utilisateur de l'utilisateur dans la base de données.
-         * Renvoie true si la modification a réussi, false sinon.
-         */
-        function change_username($new_username):bool {
-            if (user_exists($new_username, "")) {
-                return false;
-            }
-            $this->username = $new_username;
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET username = :username WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "username" => $new_username,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->username = $new_username;
-            return true;
-        }
-
-        function change_email($new_email){
-            if (user_exists("", $new_email)) {
-                return false;
-            }
-            $this->email = $new_email;
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET email = :email WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "email" => $new_email,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->email = $new_email;
-            return true;
-        }
-
-        function change_password($new_password){
-            $this->password = password_hash($new_password, PASSWORD_DEFAULT);
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET password = :password WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "password" => $this->password,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->password = $new_password;
-            return true;
-        }
-
-        function change_profile_photo($new_src_pfp){
-            $this->src_pfp = $new_src_pfp;
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET profile_photo_src = :src_pfp WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "src_pfp" => $this->src_pfp,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->src_pfp = $new_src_pfp;
-            return true;
-
-        }
-
-        function change_bio($new_bio){
-            $this->bio = $new_bio;
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET bio = :bio WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "bio" => $this->bio,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->bio = $new_bio;
-            return true;
-
-        }
-
-        function change_nom($new_nom){
-            $this->nom = $new_nom;
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET last_name = :nom WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "nom" => $new_nom,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->nom = $new_nom;
-            return true;
-
-        }
-
-        function change_prenom($new_prenom){
-            $this->prenom = $new_prenom;
-            $connexion = connection_database();
-            if(is_string($connexion)){
-                log_error("Erreur de connexion à la base de données : " . $connexion);
-                return false;
-            }
-            $query = "UPDATE Users SET first_name = :prenom WHERE id = :id";
-            $stmt = $connexion->prepare($query);
-            $stmt->execute([
-                "prenom" => $new_prenom,
-                "id" => $this->id
-            ]);
-            disconnect_database($connexion);
-            $this->prenom = $new_prenom;
-            return true;
-        }
+    public function __toString(): string {
+        return "User: $this->username, Email: $this->email, Administrator: $this->administrator, Date Joined: $this->date_joined";
     }
 
     /**
-     * Renvoie l'utilisateur correspondant au nom d'utilisateur passé en paramètre.
-     * Si l'utilisateur n'existe pas, renvoie null.
+     * Change le nom d'utilisateur dans la base de données.
+     * @param string $new_username Nouveau nom d'utilisateur
+     * @return bool True si succès, False sinon
      */
-    function get_user($username):User|null {
-        $connexion = connection_database();
-        if(is_string($connexion)){
-            log_error("Erreur de connexion à la base de données : " . $connexion);
-            return null;
+    public function change_username(string $new_username): bool {
+        if (user_exists($new_username, "")) {
+            return false;
         }
-        $query = "SELECT * FROM Users WHERE username = :username";
-        $stmt = $connexion->prepare($query);
-        $stmt->execute([
-            "username" => $username
-        ]);
-        $user = $stmt->fetch();
-        disconnect_database($connexion);
-        if(!$user){
-            return null;
-        }
-
-        return new User(
-            $user["id"], 
-            $user["username"], 
-            $user["email"], 
-            $user["administrator"], 
-            $user["date_joined"], 
-            $user["last_name"] ?? null, 
-            $user["first_name"] ?? null,
-            $user["bio"] ?? null,
-            $user["profile_photo_src"] ?? null
-        );
-    }
-
-    /**
-     * Vérifie si un utilisateur existe dans la base de données
-     */
-    function user_exists($username, $email):bool {
         $connexion = connection_database();
-        if(is_string($connexion)){
+        if (is_string($connexion)) {
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return false;
         }
-        $query = "SELECT * FROM Users WHERE username = :username OR email = :email";
+        $query = "UPDATE Users SET username = :username WHERE id = :id";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
-            "username" => $username,
-            "email" => $email
+            "username" => $new_username,
+            "id" => $this->id
         ]);
-        $result = $stmt->fetchAll();
         disconnect_database($connexion);
-
-        if (count($result) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->username = $new_username;
+        return true;
     }
 
     /**
-     * Renvoie un utilisateur grâce à son id.
-     * Si l'utilisateur n'existe pas, renvoie null.
-     * Si l' id est null, renvoie null.
+     * Change l'email dans la base de données.
+     * @param string $new_email Nouvel email
+     * @return bool True si succès, False sinon
      */
-    function get_user_from_id($id):User|null {
-        if($id === null){
-            return null;
+    public function change_email(string $new_email): bool {
+        if (user_exists("", $new_email)) {
+            return false;
         }
         $connexion = connection_database();
-        if(is_string($connexion)){
+        if (is_string($connexion)) {
             log_error("Erreur de connexion à la base de données : " . $connexion);
             return false;
         }
-        $query = "SELECT * FROM Users WHERE id = :id";
+        $query = "UPDATE Users SET email = :email WHERE id = :id";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
-            "id" => $id
+            "email" => $new_email,
+            "id" => $this->id
         ]);
-        $user = $stmt->fetch();
         disconnect_database($connexion);
-        if(!$user){
-            return null;
-        }
-        return new User(
-            $user["id"], 
-            $user["username"], 
-            $user["email"], 
-            $user["administrator"], 
-            $user["date_joined"], 
-            $user["last_name"] ?? null, 
-            $user["first_name"] ?? null,
-            $user["bio"] ?? null,
-            $user["profile_photo_src"] ?? null
-        );
+        $this->email = $new_email;
+        return true;
     }
 
     /**
-     * Ajoute un utilisateur dans la base de données.
-     * Renvoie l'utilisateur créé ou null en cas d'erreur.
+     * Change le mot de passe dans la base de données.
+     * @param string $new_password Nouveau mot de passe (en clair)
+     * @return bool True si succès, False sinon
      */
-    function add_user($username, $email, $password):User|null {
+    public function change_password(string $new_password): bool {
+        $hashed = password_hash($new_password, PASSWORD_DEFAULT);
         $connexion = connection_database();
-        if(is_string($connexion)){
+        if (is_string($connexion)) {
             log_error("Erreur de connexion à la base de données : " . $connexion);
-            return null;
+            return false;
         }
-        $query = "INSERT INTO Users (username , email, password, administrator, date_joined) VALUES (:username, :email, :password, :administrator, :date_joined)";
+        $query = "UPDATE Users SET password = :password WHERE id = :id";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
-            "username" => $username,
-            "email" => $email,
-            "password" => password_hash($password, PASSWORD_DEFAULT),
-            "administrator" => 0,
-            "date_joined" => date("Y-m-d H:i:s")
+            "password" => $hashed,
+            "id" => $this->id
         ]);
-        $last_Id = $connexion->lastInsertId();
-        $user = new User(
-            $last_Id, 
-            $username, 
-            $email, 
-            false, 
-            date("Y-m-d H:i:s")
-        );
-        $user->id = $connexion->lastInsertId();
         disconnect_database($connexion);
-        return $user;
+        $this->password = $hashed;
+        return true;
     }
 
     /**
-     * Renovie l'utilisateur s'il existe dans la base de donnée, renvoie null sinon.
+     * Change la photo de profil dans la base de données.
+     * @param string $new_src_pfp Nouvelle source de la photo de profil
+     * @return bool True si succès, False sinon
      */
-    function test_creditentals($email, $password):User|null {
+    public function change_profile_photo(string $new_src_pfp): bool {
         $connexion = connection_database();
-        if(is_string($connexion)){
+        if (is_string($connexion)) {
             log_error("Erreur de connexion à la base de données : " . $connexion);
-            return null;
+            return false;
         }
-        $query = "SELECT * FROM Users WHERE email = :email";
+        $query = "UPDATE Users SET profile_photo_src = :src_pfp WHERE id = :id";
         $stmt = $connexion->prepare($query);
         $stmt->execute([
-            "email" => $email
+            "src_pfp" => $new_src_pfp,
+            "id" => $this->id
         ]);
-        $user = $stmt->fetch(); 
         disconnect_database($connexion);
-        if ($user && password_verify($password, $user["password"])) {
-            return new User(
-                $user["id"], 
-                $user["username"], 
-                $user["email"], 
-                $user["administrator"], 
-                $user["date_joined"], 
-                isset($user["nom"]) ? $user["nom"] : null, 
-                isset($user["prenom"]) ? $user["prenom"] : null
-            );
+        $this->src_pfp = $new_src_pfp;
+        return true;
+    }
+
+    /**
+     * Change la biographie dans la base de données.
+     * @param string $new_bio Nouvelle bio
+     * @return bool True si succès, False sinon
+     */
+    public function change_bio(string $new_bio): bool {
+        $connexion = connection_database();
+        if (is_string($connexion)) {
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return false;
         }
+        $query = "UPDATE Users SET bio = :bio WHERE id = :id";
+        $stmt = $connexion->prepare($query);
+        $stmt->execute([
+            "bio" => $new_bio,
+            "id" => $this->id
+        ]);
+        disconnect_database($connexion);
+        $this->bio = $new_bio;
+        return true;
+    }
+
+    /**
+     * Change le nom de famille dans la base de données.
+     * @param string $new_nom Nouveau nom de famille
+     * @return bool True si succès, False sinon
+     */
+    public function change_nom(string $new_nom): bool {
+        $connexion = connection_database();
+        if (is_string($connexion)) {
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return false;
+        }
+        $query = "UPDATE Users SET last_name = :nom WHERE id = :id";
+        $stmt = $connexion->prepare($query);
+        $stmt->execute([
+            "nom" => $new_nom,
+            "id" => $this->id
+        ]);
+        disconnect_database($connexion);
+        $this->nom = $new_nom;
+        return true;
+    }
+
+    /**
+     * Change le prénom dans la base de données.
+     * @param string $new_prenom Nouveau prénom
+     * @return bool True si succès, False sinon
+     */
+    public function change_prenom(string $new_prenom): bool {
+        $connexion = connection_database();
+        if (is_string($connexion)) {
+            log_error("Erreur de connexion à la base de données : " . $connexion);
+            return false;
+        }
+        $query = "UPDATE Users SET first_name = :prenom WHERE id = :id";
+        $stmt = $connexion->prepare($query);
+        $stmt->execute([
+            "prenom" => $new_prenom,
+            "id" => $this->id
+        ]);
+        disconnect_database($connexion);
+        $this->prenom = $new_prenom;
+        return true;
+    }
+}
+
+/**
+ * Récupère un utilisateur par son nom d'utilisateur.
+ * @param string $username Nom d'utilisateur
+ * @return User|null L'utilisateur ou null si non trouvé
+ */
+function get_user(string $username): ?User {
+    $connexion = connection_database();
+    if (is_string($connexion)) {
+        log_error("Erreur de connexion à la base de données : " . $connexion);
         return null;
     }
-
-    function count_user_likes($id){
-        $connexion = connection_database();
-        if(is_string($connexion)){
-            log_error("Erreur de connexion à la base de données : " . $connexion);
-            return null;
-        }
-        $query = "SELECT COUNT(*) FROM Likes WHERE image_id in (SELECT id FROM Images WHERE author_id = :user_id)";
-        $stmt = $connexion->prepare($query);
-        $stmt->execute([
-            "user_id" => $id
-        ]);
-        $count = $stmt->fetchColumn();
-        disconnect_database($connexion);
-        return $count;
+    $query = "SELECT * FROM Users WHERE username = :username";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute([
+        "username" => $username
+    ]);
+    $user = $stmt->fetch();
+    disconnect_database($connexion);
+    if (!$user) {
+        return null;
     }
+    return new User(
+        $user["id"],
+        $user["username"],
+        $user["email"],
+        (bool)$user["administrator"],
+        $user["date_joined"],
+        $user["last_name"] ?? null,
+        $user["first_name"] ?? null,
+        $user["bio"] ?? null,
+        $user["profile_photo_src"] ?? null
+    );
+}
+
+/**
+ * Vérifie si un utilisateur existe par son nom d'utilisateur ou son email.
+ * @param string $username Nom d'utilisateur
+ * @param string $email Email
+ * @return bool True si l'utilisateur existe, False sinon
+ */
+function user_exists(string $username, string $email): bool {
+    $connexion = connection_database();
+    if (is_string($connexion)) {
+        log_error("Erreur de connexion à la base de données : " . $connexion);
+        return false;
+    }
+    $query = "SELECT * FROM Users WHERE username = :username OR email = :email";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute([
+        "username" => $username,
+        "email" => $email
+    ]);
+    $result = $stmt->fetchAll();
+    disconnect_database($connexion);
+    return count($result) > 0;
+}
+
+/**
+ * Récupère un utilisateur par son identifiant.
+ * @param int|null $id Identifiant utilisateur
+ * @return User|null L'utilisateur ou null si non trouvé
+ */
+function get_user_from_id(?int $id): ?User {
+    if ($id === null) {
+        return null;
+    }
+    $connexion = connection_database();
+    if (is_string($connexion)) {
+        log_error("Erreur de connexion à la base de données : " . $connexion);
+        return null;
+    }
+    $query = "SELECT * FROM Users WHERE id = :id";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute([
+        "id" => $id
+    ]);
+    $user = $stmt->fetch();
+    disconnect_database($connexion);
+    if (!$user) {
+        return null;
+    }
+    return new User(
+        $user["id"],
+        $user["username"],
+        $user["email"],
+        (bool)$user["administrator"],
+        $user["date_joined"],
+        $user["last_name"] ?? null,
+        $user["first_name"] ?? null,
+        $user["bio"] ?? null,
+        $user["profile_photo_src"] ?? null
+    );
+}
+
+/**
+ * Ajoute un nouvel utilisateur à la base de données.
+ * @param string $username Nom d'utilisateur
+ * @param string $email Email
+ * @param string $password Mot de passe (en clair)
+ * @return User|null L'utilisateur créé ou null en cas d'erreur
+ */
+function add_user(string $username, string $email, string $password): ?User {
+    $connexion = connection_database();
+    if (is_string($connexion)) {
+        log_error("Erreur de connexion à la base de données : " . $connexion);
+        return null;
+    }
+    $query = "INSERT INTO Users (username, email, password, administrator, date_joined) VALUES (:username, :email, :password, :administrator, :date_joined)";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute([
+        "username" => $username,
+        "email" => $email,
+        "password" => password_hash($password, PASSWORD_DEFAULT),
+        "administrator" => 0,
+        "date_joined" => date("Y-m-d H:i:s")
+    ]);
+    $last_Id = $connexion->lastInsertId();
+    $user = new User(
+        (int)$last_Id,
+        $username,
+        $email,
+        false,
+        date("Y-m-d H:i:s")
+    );
+    disconnect_database($connexion);
+    return $user;
+}
+
+/**
+ * Vérifie les identifiants de connexion d'un utilisateur.
+ * @param string $email Email
+ * @param string $password Mot de passe (en clair)
+ * @return User|null L'utilisateur si les identifiants sont corrects, sinon null
+ */
+function test_creditentals(string $email, string $password): ?User {
+    $connexion = connection_database();
+    if (is_string($connexion)) {
+        log_error("Erreur de connexion à la base de données : " . $connexion);
+        return null;
+    }
+    $query = "SELECT * FROM Users WHERE email = :email";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute([
+        "email" => $email
+    ]);
+    $user = $stmt->fetch();
+    disconnect_database($connexion);
+    if ($user && password_verify($password, $user["password"])) {
+        return new User(
+            $user["id"],
+            $user["username"],
+            $user["email"],
+            (bool)$user["administrator"],
+            $user["date_joined"],
+            $user["last_name"] ?? null,
+            $user["first_name"] ?? null,
+            $user["bio"] ?? null,
+            $user["profile_photo_src"] ?? null
+        );
+    }
+    return null;
+}
+
+/**
+ * Compte le nombre de likes reçus sur les images d'un utilisateur.
+ * @param int $id Identifiant utilisateur
+ * @return int|null Nombre de likes ou null en cas d'erreur
+ */
+function count_user_likes(int $id): ?int {
+    $connexion = connection_database();
+    if (is_string($connexion)) {
+        log_error("Erreur de connexion à la base de données : " . $connexion);
+        return null;
+    }
+    $query = "SELECT COUNT(*) FROM Likes WHERE image_id IN (SELECT id FROM Images WHERE author_id = :user_id)";
+    $stmt = $connexion->prepare($query);
+    $stmt->execute([
+        "user_id" => $id
+    ]);
+    $count = $stmt->fetchColumn();
+    disconnect_database($connexion);
+    return $count !== false ? (int)$count : null;
+}
 ?>

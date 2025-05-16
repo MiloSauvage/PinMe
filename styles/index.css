@@ -1,11 +1,9 @@
-/* Reset de base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Style général */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f9f9f9;
@@ -18,7 +16,6 @@ body {
     width: 200px;
 }
 
-/* Header */
 header {
     text-align: center;
     padding: 40px 20px 20px 20px;
@@ -38,13 +35,11 @@ header p {
     margin: 10px 0;
 }
 
-/* Page Content */
 .page-content {
     display: flex;
     gap: 20px;
 }
 
-/* Side Bar */
 .side-bar {
     flex: 1;
     background: #fff;
@@ -53,7 +48,6 @@ header p {
     min-width: 200px;
     max-width: 280px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Rendre la sidebar fixe pendant le défilement */
     position: sticky;
     top: 20px;
     height: max-content;
@@ -61,7 +55,6 @@ header p {
     overflow-y: auto;
 }
 
-/* Style pour les informations utilisateur dans la sidebar */
 .user-info {
     margin-bottom: 20px;
     padding-bottom: 15px;
@@ -108,7 +101,6 @@ header p {
     color: #777;
 }
 
-/* Section des liens rapides */
 .quick-links {
     margin-top: 20px;
 }
@@ -151,7 +143,6 @@ header p {
     margin-bottom: 20px;
 }
 
-/* Boutons dans la sidebar */
 .side-bar .cta-buttons {
     display: flex;
     flex-direction: column;
@@ -173,14 +164,11 @@ header p {
     background: #feb47b;
 }
 
-/* Contenant principal des images */
 .img-div {
     flex: 4;
     min-width: 0;
-    /* Permet au contenu de se rétrécir correctement */
 }
 
-/* Images récentes */
 .recent-images {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -188,7 +176,6 @@ header p {
     width: 100%;
 }
 
-/* Bloc individuel image */
 .image-item {
     background: #fff;
     padding: 10px;
@@ -197,7 +184,6 @@ header p {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
     cursor: pointer;
-    /* Assurez une hauteur cohérente */
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -210,21 +196,16 @@ header p {
 .image-item img {
     width: 100%;
     height: auto;
-    /* Hauteur fixe pour toutes les images */
     border-radius: 10px;
     object-fit: cover;
-    /* Maintient les proportions tout en couvrant l'espace */
 }
 
 .image-item p {
-    margin-top: 10px;
-    font-weight: bold;
-    /* Aligner tous les titres en bas */
     margin-top: auto;
     padding-top: 10px;
+    font-weight: bold;
 }
 
-/* Quand il n'y a pas d'image */
 .no-images {
     font-size: 25px;
     color: #585858;
@@ -235,15 +216,12 @@ header p {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     grid-column: 1 / -1;
-    /* S'étend sur toutes les colonnes de la grille */
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .page-content {
         flex-direction: column;
     }
-
     .side-bar {
         max-width: 100%;
         position: static;

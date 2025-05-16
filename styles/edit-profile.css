@@ -1,5 +1,3 @@
-/* Styles spécifiques pour la page edit-profile */
-
 .form-container {
     flex: 4;
     padding: 20px;
@@ -103,20 +101,17 @@ button[type="submit"]:hover {
     background: #e1e1e1;
 }
 
-/* Style pour le champ de téléchargement de fichier */
 input[type="file"] {
     padding: 10px;
     background: #f9f9f9;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .form-actions {
         flex-direction: column;
         gap: 15px;
     }
-    
-    button[type="submit"], 
+    button[type="submit"],
     .cancel-button {
         width: 100%;
         text-align: center;

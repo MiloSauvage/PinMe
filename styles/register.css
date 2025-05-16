@@ -1,11 +1,9 @@
-/* Reset de base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Style général */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f9f9f9;
@@ -23,17 +21,15 @@ body {
     margin: 0 auto;
 }
 
-/* Header */
 header {
     text-align: center;
-    padding: 40px 20px 20px 20px;
+    padding: 40px 20px 20px;
     background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    color: white;
+    color: #fff;
     border-radius: 10px;
     margin-bottom: 40px;
 }
 
-/* Page Content */
 .page-content {
     flex: 1;
     display: flex;
@@ -42,17 +38,15 @@ header {
     padding: 20px;
 }
 
-/* Conteneur principal du formulaire */
 .register-container {
-    background: white;
+    background: #fff;
     border-radius: 10px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
     padding: 40px;
     max-width: 450px;
     width: 100%;
 }
 
-/* Titre du formulaire */
 .form-title {
     color: #333;
     margin-bottom: 30px;
@@ -61,7 +55,6 @@ header {
     font-weight: 600;
 }
 
-/* Style des groupes de formulaire */
 .form-group {
     margin-bottom: 25px;
 }
@@ -86,14 +79,13 @@ header {
 .form-group input:focus {
     border-color: #ff7e5f;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.2);
+    box-shadow: 0 0 0 3px rgba(255,126,95,0.2);
 }
 
-/* Bouton de soumission */
 .submit-button {
     width: 100%;
     background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    color: white;
+    color: #fff;
     border: none;
     padding: 12px 20px;
     border-radius: 30px;
@@ -102,19 +94,18 @@ header {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(255, 126, 95, 0.3);
+    box-shadow: 0 4px 10px rgba(255,126,95,0.3);
 }
 
 .submit-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 126, 95, 0.4);
+    box-shadow: 0 6px 15px rgba(255,126,95,0.4);
 }
 
 .submit-button:active {
     transform: translateY(0);
 }
 
-/* Lien de connexion */
 .login-link {
     text-align: center;
     margin: 25px 0;
@@ -134,7 +125,6 @@ header {
     text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 500px) {
     .register-container {
         padding: 30px 20px;

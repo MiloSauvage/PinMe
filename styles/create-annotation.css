@@ -1,5 +1,3 @@
-/* Styles pour la page de création d'annotation */
-
 .annotation-container {
     flex: 4;
     min-width: 0;
@@ -20,7 +18,6 @@
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    /* S'assurer que les positions relatives dans les enfants fonctionnent correctement */
     overflow: hidden;
 }
 
@@ -31,7 +28,6 @@
     border-radius: 8px;
     cursor: crosshair;
     position: relative;
-    /* Pour s'assurer que c'est une référence de positionnement */
 }
 
 .annotation-form {
