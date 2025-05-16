@@ -71,8 +71,8 @@
                     <div class="annotation-tooltip">
                         <strong><?= htmlspecialchars($annotation->title) ?></strong>
                         <span class="annotation-author">Par: <?= $username ?></span>
-                        <?php if(is_connected() && ($annotation->user_id == $_SESSION['user']->id || $image->id_author == session_get_user())): ?>
-                            <a href="process/delete-annotation.php?id=<?=$id?>" class="annotation-delete-btn" data-annotation-id="<?= $annotation->id ?>">🗑️</a>
+                        <?php if(is_connected() && ($annotation->user_id == $_SESSION['user']->id || $image->id_author == session_get_user()->id)): ?>
+                            <a href="process/delete-annotation.php?id=<?=$annotation->id?>" class="annotation-delete-btn" data-annotation-id="<?= $annotation->id ?>">🗑️</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -120,26 +120,22 @@
                         echo "<p class='comment-author'><a href='profile.php?username=$username'>$username</a></p>";
                         echo "<span class='comment-date'>" . format_date($comment->upload_date) . "</span>";
                         
-                        // Actions sur les commentaires
                         echo "<div class='comment-actions'>";
                         
-                        // Boutons pour l'auteur du post uniquement
                         if($is_post_author || $is_comment_author){
-                            // Bouton Supprimer
                             echo "<a class='btn-delete' href=./process/delete-comment.php?id=" . $comment->id . ">";
                             echo "🗑️";
                             echo "</a>";
                         }
                         
-                        echo "</div>"; // .comment-actions
-                        echo "</div>"; // .comment-header
+                        echo "</div>";
+                        echo "</div>";
                         echo "<p class='comment-content'>" . htmlspecialchars($comment->content) . "</p>";
-                        echo "</div>"; // .comment
+                        echo "</div>";
 
                     }
                 }
             
-                // Fonction d'aide pour formater la date
                 function format_date($date_str) {
                     $date = new DateTime($date_str);
                     $now = new DateTime();

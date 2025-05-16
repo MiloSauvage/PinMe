@@ -1,12 +1,12 @@
 <?php
-    require_once('utils/annotation.php');
-    require_once('utils/session.php');
+    require_once('../utils/annotation.php');
+    require_once('../utils/session.php');
 
     if(!is_connected()){
         exit;
     }
 
-    $id = $_POST['id'] ?? null;
+    $id = $_GET['id'] ?? null;
 
     if($id === null){
         exit('ID de l\'annotation non spécifié.');
@@ -19,4 +19,6 @@
     }
 
     $annotation->delete_from_bdd();
+
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>
