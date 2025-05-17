@@ -13,6 +13,7 @@
         <img class="logo-header" src="./public/images/logo/logo.png" alt="Logo">
     </header>
     <div class="page-content">
+        <?php require_once 'utils/session.php'; ?>
         <?php include_once 'utils/side-bar.php'; ?>
 
         <?php

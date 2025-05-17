@@ -52,7 +52,6 @@
                         <option value="histoire">Histoire</option>
                         <option value="artistique">Artistique</option>
                     </select>
-                    <p class="required-text">Maintenez Ctrl (ou Cmd) pour sélectionner plusieurs catégories</p>
                 </div>
                 <div class="form-group">
                     <label>Visibilité</label>
@@ -61,13 +60,13 @@
                             <i>🌎</i>
                             <h4>Public</h4>
                             <p>Visible par tous</p>
-                            <input type="radio" name="visibility" value="public" checked style="display: none;">
+                            <input type="radio" name="visibility" value="true" checked style="display: none;">
                         </div>
                         <div class="visibility-option" id="opt-private">
                             <i>🔒</i>
                             <h4>Privé</h4>
                             <p>Visible par vous uniquement</p>
-                            <input type="radio" name="visibility" value="private" style="display: none;">
+                            <input type="radio" name="visibility" value="false" style="display: none;">
                         </div>
                     </div>
                 </div>
@@ -92,15 +91,17 @@
                 preview.innerHTML = '<p class="image-preview-text">L\'aperçu de votre image apparaîtra ici</p>';
             }
         });
+
         document.getElementById('opt-public').addEventListener('click', function() {
             document.getElementById('opt-public').classList.add('selected');
             document.getElementById('opt-private').classList.remove('selected');
-            document.querySelector('input[value="public"]').checked = true;
+            document.querySelector('input[value="true"]').checked = true; // corrigé ici
         });
+
         document.getElementById('opt-private').addEventListener('click', function() {
             document.getElementById('opt-private').classList.add('selected');
             document.getElementById('opt-public').classList.remove('selected');
-            document.querySelector('input[value="private"]').checked = true;
+            document.querySelector('input[value="false"]').checked = true; // corrigé ici
         });
     </script>
 </body>

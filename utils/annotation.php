@@ -60,26 +60,12 @@ class Annotation {
     }
 
     /**
-     * Récupère une connexion à la base de données.
-     * 
-     * @return PDO|false
-     */
-    private static function get_db() {
-        $bdd = connection_database();
-        if (is_string($bdd)) {
-            log_error("Erreur de connexion à la base de données : " . $bdd);
-            return false;
-        }
-        return $bdd;
-    }
-
-    /**
      * Insère l'annotation dans la base de données.
      * 
      * @return bool Succès de l'insertion
      */
     public function put_in_bdd(): bool {
-        $bdd = self::get_db();
+        $bdd = connection_database();
         if (!$bdd) return false;
         $req = $bdd->prepare(
             'INSERT INTO Annotations (image_id, title, user_id, position_x, position_y, width, height, color) 
@@ -107,7 +93,7 @@ class Annotation {
      * @return bool Succès de la suppression
      */
     public function delete_from_bdd(): bool {
-        $bdd = self::get_db();
+        $bdd = connection_database();
         if (!$bdd) return false;
         $req = $bdd->prepare('DELETE FROM Annotations WHERE id = :id');
         $req->execute(['id' => $this->id]);
@@ -125,7 +111,7 @@ class Annotation {
  * @return Annotation|null L'annotation trouvée ou null si non trouvée
  */
 function get_annotation_by_id(int $id): ?Annotation {
-    $bdd = Annotation::get_db();
+    $bdd = connection_database();
     if (!$bdd) return false;
     $req = $bdd->prepare('SELECT * FROM Annotations WHERE id = :id');
     $req->execute(['id' => $id]);
@@ -154,7 +140,7 @@ function get_annotation_by_id(int $id): ?Annotation {
  * @return Annotation[] Tableau d'annotations
  */
 function get_annotations_by_image_id(int $image_id): array {
-    $bdd = Annotation::get_db();
+    $bdd = connection_database();
     if (!$bdd) return [];
     $req = $bdd->prepare('SELECT * FROM Annotations WHERE image_id = :image_id');
     $req->execute(['image_id' => $image_id]);

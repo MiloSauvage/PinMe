@@ -23,13 +23,13 @@ foreach ($images as $image) {
         $image["id"],
         $image["src"],
         $image["title"],
+        $image["author_id"],
+        $image["upload_date"],
         $image["description"],
         $image["categories"],
         $image["tags"],
-        $image["author_id"],
-        $image["likes"],
         $image["visibility"],
-        $image["upload_date"]
+        $image["likes"]
     );
     array_push($images_array, $img);
 }

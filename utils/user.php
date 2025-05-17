@@ -7,11 +7,11 @@ class User {
     public string $email;
     public bool $administrator;
     public string $date_joined;
-    public ?string $nom;
-    public ?string $prenom;
-    public ?string $password;
-    public ?string $src_pfp;
-    public ?string $bio;
+    public string $nom;
+    public string $prenom;
+    public string $password;
+    public string $src_pfp;
+    public string $bio;
 
     public function __construct(
         int $id,

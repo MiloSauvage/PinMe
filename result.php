@@ -12,7 +12,7 @@ if ($query === null || $category === null || $sort === null) {
     exit;
 }
 
-$sql = "SELECT * FROM Images WHERE (LOWER(title) LIKE LOWER(CONCAT('%', :search, '%')) OR tags LIKE LOWER(CONCAT('%', :search, '%')) OR description LIKE LOWER(CONCAT('%', :search, '%')))";
+$sql = "SELECT * FROM Images WHERE visibility='Visible' AND (LOWER(title) LIKE LOWER(CONCAT('%', :search, '%')) OR tags LIKE LOWER(CONCAT('%', :search, '%')) OR description LIKE LOWER(CONCAT('%', :search, '%')))";
 if ($category !== "") {
     $sql .= " AND categories LIKE $category";
 }
@@ -41,13 +41,13 @@ foreach ($images as $image) {
         $image["id"],
         $image["src"],
         $image["title"],
+        $image["author_id"],
+        $image["upload_date"],
         $image["description"],
         $image["categories"],
         $image["tags"],
-        $image["author_id"],
-        $image["likes"],
         $image["visibility"],
-        $image["upload_date"]
+        $image["likes"]
     );
     array_push($images_array, $img);
 }

@@ -73,7 +73,11 @@ $editable = is_connected() && (session_get_user()->administrator || session_get_
             <h2 class="section-title">Images publiées</h2>
             <div class="posts-section">
                 <?php
-                $images = get_all_images_from_user_id($user->id);
+                $images = session_get_user() ===  null 
+                    ? get_public_images_from_user_id($user->id) 
+                    : ( session_get_user() === $user || session_get_user()->administrator
+                        ? get_public_images_from_user_id($user->id)
+                        : get_all_images_from_user_id($user->id));
                 if (empty($images)) {
                     echo '<p class="no-images">Ça semble vide ici !</p>';
                 } else {

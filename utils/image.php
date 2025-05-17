@@ -86,7 +86,7 @@ class Image {
             'tags' => $this->tags,
             'author_id' => $this->id_author,
             'likes' => $this->likes,
-            'visibility' => $this->visibility,
+            'visibility' => $this->visibility === true ? "Visible" : "Private", // enum : "Visible", "Private"
             'upload_date' => $this->upload_date
         ]);
         $this->id = (int)$bdd->lastInsertId();
@@ -143,7 +143,7 @@ function get_image_from_id(int $id): ?Image {
             $data['description'],
             $data['categories'],
             $data['tags'],
-            (bool)$data['visibility'],
+            (bool)($data['visibility'] === "Visible"),
             (int)$data['likes']
         );
     }

@@ -11,15 +11,24 @@ if (!isset($_GET["id"])) {
     exit;
 }
 $id = $_GET["id"];
+if($id === null || !is_numeric($id)) {
+    echo "<p>Erreur : l'image n'existe pas ou vous n'avez pas les droits d'accès.</p>";
+    exit;
+}
 $image = get_image_from_id($id);
 if ($image == null) {
+    echo "<p>Erreur : l'image n'existe pas ou vous n'avez pas les droits d'accès.</p>";
+    exit;
+}
+if($image->visibility === false && ( session_get_user() === null || $image->id_author !== session_get_user()->id)){
+    echo "<p>Erreur : l'image n'existe pas ou vous n'avez pas les droits d'accès.</p>";
     exit;
 }
 $user = session_get_user();
 $is_liked = false;
 $like_count = get_post_like_count($image);
 if (is_connected()) {
-    $current_user_id = $_SESSION['user']->id;
+    $current_user_id = session_get_user()->id;
     $is_liked = check_if_post_liked($image, $user);
 }
 $annotations = get_annotations_by_image_id($id);
@@ -87,7 +96,7 @@ function format_date($date_str) {
                     <div class="annotation-tooltip">
                         <strong><?= htmlspecialchars($annotation->title) ?></strong>
                         <span class="annotation-author">Par: <?= $username ?></span>
-                        <?php if (is_connected() && ($annotation->user_id == $_SESSION['user']->id || $image->id_author == session_get_user()->id)): ?>
+                        <?php if (is_connected() && ($annotation->user_id == session_get_user()->id || $image->id_author == session_get_user()->id)): ?>
                             <a href="process/delete-annotation.php?id=<?= $annotation->id ?>" class="annotation-delete-btn" data-annotation-id="<?= $annotation->id ?>">🗑️</a>
                         <?php endif; ?>
                     </div>
@@ -125,7 +134,7 @@ function format_date($date_str) {
                         $username = $user === null ? "Utilisateur inconnu" : $user->username;
                         $profile_pic = $user === null ? "./public/images/default-avatar.avif" : ($user->src_pfp ?? "./public/images/default-avatar.avif");
                         $is_post_author = ($user && $image->id_author == $user->id);
-                        $is_comment_author = ($user && is_connected() && $_SESSION['user']->id == $user->id);
+                        $is_comment_author = ($user && is_connected() && session_get_user()->id == $user->id);
 
                         echo "<div class='comment'>";
                         echo "<div class='comment-header'>";
@@ -160,5 +169,9 @@ function format_date($date_str) {
 <div class="modal-footer">
     <a href="#" class="btn btn-close" role="button" data-dismiss="post">fermer</a>
     <a href="#" class="btn btn">valider</a>
-    <a href="#" class="btn btn-delete" data-delete="post">supprimer</a>
+    <?php
+        if (is_connected() && (session_get_user()->id == $image->id_author || session_get_user()->administrator)) {
+            echo '<a href="#" class="btn btn-delete" data-delete="post">supprimer</a>';
+        }
+    ?>
 </div>

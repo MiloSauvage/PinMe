@@ -8,7 +8,7 @@ session_start();
  * @return bool True si un utilisateur est connecté, sinon false.
  */
 function is_connected(): bool {
-    return isset($_SESSION["user"]);
+    return isset($_SESSION["user_id"]);
 }
 
 /**
@@ -18,7 +18,7 @@ function is_connected(): bool {
  * @return void
  */
 function session_set_user(object $user): void {
-    $_SESSION["user"] = get_user_from_id($user->id);
+    $_SESSION['user_id'] = $user->id;
 }
 
 /**
@@ -27,7 +27,8 @@ function session_set_user(object $user): void {
  * @return mixed L'utilisateur courant ou null s'il n'est pas défini.
  */
 function session_get_user() {
-    return $_SESSION["user"] ?? null;
+    if (!isset($_SESSION['user_id'])) return null;
+    return get_user_from_id($_SESSION['user_id']);
 }
 
 /**

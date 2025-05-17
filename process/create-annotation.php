@@ -22,14 +22,14 @@
     }
 
     $annotation = new Annotation(
-        null,
-        $image_id,
+        0,
+        intval($image_id),
         $title,
-        session_get_user()->id,
-        $pos_x,
-        $pos_y,
-        $width,
-        $height,
+        intval(session_get_user()->id),
+        floatval($pos_x),
+        floatval($pos_y),
+        floatval($width),
+        floatval($height),
         $color
     );
 

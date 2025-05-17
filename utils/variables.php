@@ -13,7 +13,7 @@
         define("DB_USER", "root");
         define("DB_PASSWORD", "");
         // Racine du projet
-        define('PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT'] . "/");
+        define('PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT'] . "/PinMe/");
     }
     // Gestion d'images
     define("UPLOAD_DIR", PROJECT_ROOT . "public/images/uploads/");
